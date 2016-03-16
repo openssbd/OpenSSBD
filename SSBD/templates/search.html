@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Advanced Search{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li class="active">Advanced search</li>
+   </ul>
+  </div>
+{% endblock %}
+{% block search %}{% endblock %}
+
+{% block content %}
+<div class="main">
+
+<h2>Advanced Search</h2>
+<form method="POST" action="">{% csrf_token %}
+
+<table class="layout">
+  {{ formset.management_form }}
+  {% for form in formset %}
+  <tr>
+    {% if forloop.first %}
+    <td></td>
+    {% else %}
+    <td>{{ form.conf }}</td>
+    {% endif %}
+    <td>{{ form.field }}</td>
+    <td>{{ form.value }}</td>
+    {% if formset.can_delete %}
+    <td>{{ form.DELETE }}</td>
+    {% endif %}
+  </tr>
+  {% endfor %}
+  <tr>
+    {% if formset.can_delete %}
+    <td colspan=4 align="right" class="label2">
+    {% else %}
+    <td colspan=3 align="right" class="label2">
+    {% endif %}
+
+    {% if formset.can_delete %}
+      <input name='form-submit' type="submit" value="Delete" id="btn">
+    {% endif %}    
+      <input name='form-submit' type="submit" value="Add" id="btn">
+      <input name='form-submit' type="submit" value="Search" id="btn">
+    </td>
+  </tr>
+</table>
+
+{% if data_list %}
+<h2>Results: {{ start_number }} to {{ end_number }} of {{ data_count }} </h2>
+<div class="text">
+<ol start={{ start_number }}>
+{% for d in data_list %}
+<li><a href="/search/{{ d.bdmlUUID }}/">BDML ID: {{ d.bdmlUUID }}</a><br> <!-- d.info.bdmlID -->
+    <span class="orange">ORGANISM:</span> {{ d.fk.summary.organism }},
+    <span class="orange">DATATYPE:</span> {{ d.fk.summary.datatype }},
+    <span class="orange">BASEDON:</span> {{ d.fk.summary.basedon }},
+    <span class="orange">IDENTIFIER:</span> {{ d.fk.summary.identifier }},
+    <span class="orange">SCHEMA:</span> {{ d.schema }}, <br>
+    <span class="orange">DESCRIPTION:</span> {{ d.fk.summary.description }} 
+
+</li>
+{% endfor %} 
+</ol>
+</div>
+
+<div class="pager">
+{% if has_previous %}
+<input name='form-submit' type="submit" value="Previous" id="btn">
+{% endif %}
+ <span class="current"> Page {{ page }} of {{ page_number }}</span>  
+{% if has_next %}
+<input name='form-submit' type="submit" value="Next" id="btn">
+{% endif %}
+
+<input name='page' type="hidden" value="{{ page }}">
+
+</div>
+
+</form>
+
+{% else %}
+<h2>Results:</h2>
+<div class="text">No hit.</div>
+
+{% endif %}
+
+{% if debug %}
+<h2>Debug:</h2>
+<div class="text"><p style="color: red;">{{ debug }}</p></div>
+{% endif %}
+
+</div>
+{% endblock %}

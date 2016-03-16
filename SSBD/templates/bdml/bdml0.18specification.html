@@ -1,0 +1,1190 @@
+{% extends "base.html" %}
+{% block title %}BDML version 0.18 Specification{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li class="active"><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+		<div class="main">
+			<h2>BDML version 0.18 Specification</h2>
+			
+			<div class="text">
+				<h3><u>&lt;bdml&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>This is the root element for the BDML schema.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>bdmlDocument</td>
+					</tr>
+					<tr>
+						<td class="label">Attributes: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Attribute Name</th><th>Data Type</th><th>Use</th><th>Definition</th></tr>
+								<tr><td>version</td><td>xsd:positiveInteger</td><td>requied</td><td>The version of this BDML document.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td><a href="#info">info</a></td><td>Info</td><td>1</td><td>1</td><td>Information about the BDML file.</td></tr>
+								<tr><td><a href="#summary">summary</a></td><td>Summary</td><td>1</td><td>1</td><td>Summary of data described in the BDML file.</td></tr>
+								<tr><td><a href="#contact">contact</a></td><td>Contact</td><td>1</td><td>1</td><td>Contact information for the BDML file.</td></tr>
+								<tr><td><a href="#methods">methods</a></td><td>Methods</td><td>1</td><td>1</td><td>Methods used to obtain data described in the BDML file.</td></tr>
+								<tr><td><a href="#data">data</a></td><td>Data</td><td>0</td><td>1</td><td>Data described in the BDML file.</td></tr>
+								<tr><td><a href="#series">series</a></td><td>Series</td><td>0</td><td>1</td><td>A sereis of data files which are obtained from the same experiment or simulation.</td></tr>
+								<tr><td><a href="#set">set</a></td><td>Set</td><td>0</td><td>1</td><td>A set of data files which are referenced in the same article.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;bdml version="0.18" xsi:schemaLocation="http://ssbd.qbic.riken.jp/bdml http://ssbd.qbic.riken.jp/bdml/bdml0.18.xsd"&gt;
+  &lt;info&gt;
+    &lt;bdmlID&gt;563d487f-1676-4159-a3ab-c25c2e198f6c&lt;/bdmlID&gt;
+    ...
+  &lt;/info&gt;
+  &lt;summary&gt;
+    &lt;description&gt;quantitative information about nuclear division dynamics in wild-type embryo&lt;/description&gt;
+    ...
+  &lt;/summary&gt;
+  &lt;contact&gt;
+    &lt;name&gt;Shuichi Onami&lt;/name&gt;
+    ...
+  &lt;/contact&gt;
+  &lt;methods&gt;
+    &lt;summary&gt;See details in Kyoda et al. (2013) Nucleic Acids Res 41, D732-D737.&lt;/summary&gt;
+    ...
+  &lt;/methods&gt;
+  &lt;data&gt;
+      ...
+      ...
+      ...
+  &lt;/data&gt;
+&lt;/bdml&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td>Insted of &lt;data&gt;, &lt;series&gt; or &lt;set&gt; can be used for representing a set of data files which are obtained from the same experiment or simulation, or a set of data files which are referenced in the same article, respectively.</td>
+					</tr>
+				</table>
+			</div>
+
+
+			
+			<div class="text">
+				<h3><u>&lt;<a name="info">info</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Information about the BDML file.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Info</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>bdmlID</td><td><a href="#UUIDType">UUIDType</a></td><td>1</td><td>1</td><td>Unique ID of the BDML file.</td></tr>
+								<tr><td>title</td><td>xsd:string</td><td>1</td><td>1</td><td>Title of the BDML file.</td></tr>
+								<tr><td>version</td><td>xsd:positiveInteger</td><td>1</td><td>1</td><td>Version of the BDML file.</td></tr>
+								<tr><td>release</td><td>xsd:date</td><td>1</td><td>1</td><td>Release date of the BDML file.</td></tr>
+								<tr><td>license</td><td>xsd:string</td><td>1</td><td>1</td><td>License information of the BDML file.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;info&gt;
+  &lt;bdmlID&gt;563d487f-1676-4159-a3ab-c25c2e198f6c&lt;/bdmlID&gt;
+  &lt;title&gt;BDML file for quantitative information about nuclear division dynamics of wild-type embryo&lt;/title&gt;
+  &lt;version&gt;1&lt;/version&gt;
+  &lt;release&gt;2012-05-18&lt/release&gt;
+  &lt;license&gt;CC BY-SA&lt/license&gt;
+&lt;/info&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td><a href="http://creativecommons.org/licenses/" target="_blank" class="exlink">The Creative Commons licenses</a> are recommended for publishing data.</td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="summary">summary</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Summary of the data described in the BDML file.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Summary</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>description</td><td>xsd:string</td><td>1</td><td>1</td><td>Detailed information about the data described in the BDML file.</td></tr>
+								<tr><td>datatype</td><td>xsd:string</td><td>1</td><td>1</td><td>Describes specific type of data that was represented in the BDML file</td></tr>
+								<tr><td>organism</td><td>xsd:string</td><td>1</td><td>1</td><td>Name of a targeted organism being described. Name is based on <a href="http://www.ncbi.nlm.nih.gov/taxonomy">the NCBI taxonomy definition</a>.</td></tr>
+								<tr><td>localID</td><td>xsd:string</td><td>0</td><td>1</td><td>Internal or local identifier used to identify the BDML file.</td></tr>
+								<tr><td><a href="#basedon">basedon</a></td><td>BasedOn</td><td>1</td><td>1</td><td>Speficify Whether the data was gathered from an in vivo measurement or from a computer simulation.</td></tr>
+								<tr><td>contributors</td><td>xsd:string</td><td>1</td><td>1</td><td>Names of contributors who produce/collect the data.</td></tr>
+								<tr><td>citation</td><td>xsd:string</td><td>0</td><td>1</td><td>Detailed information about the original published paper.</td></tr>
+								<tr><td>PMID</td><td>xsd:positiveInteger</td><td>0</td><td>1</td><td>PubMed ID of the original published paper.</td></tr>
+								<tr><td>dblink</td><td>xsd:anyURI</td><td>0</td><td>1</td><td>A URL link to the original database.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;summary&gt;
+  &lt;description&gt;quantitative information about nuclear division dynamics in wild-type embryo&lt;/description&gt;
+  &lt;datatype&gt;nuclear division dynamics&lt;/datatype&gt;
+  &lt;organism&gt;C. elegans&lt;/organism&gt;
+  &lt;localID&gt;wt(N2)030131_01&lt;/localID&gt;
+  &lt;basedon&gt;Experiment&lt;/basedon&gt;
+  &lt;contributors&gt;Kyoda, K., Furukawa, M., Arai, R., Onami, S.&lt;/contributors&gt;
+  &lt;PMID&gt;23172286&lt;/PMID&gt;
+  &lt;dblink&gt;http://so.qbic.riken.jp/wddd/&lt;/dblink&gt;
+&lt;/summary&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="contact">contact</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Contact information for the BDML file.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Contact</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>name</td><td>xsd:string</td><td>1</td><td>1</td><td>Name of corresponding author of the BDML file.</td></tr>
+								<tr><td>E-mail</td><td>xsd:string</td><td>1</td><td>1</td><td>E-mail address of the corresponding author.</td></tr>
+								<tr><td>phone</td><td>xsd:string</td><td>0</td><td>1</td><td>Phone number of the corresponding author.</td></tr>
+								<tr><td>URL</td><td>xsd:anyURI</td><td>0</td><td>1</td><td>A URL link to corresponding author's laboratory or website.</td></tr>
+								<tr><td>organization</td><td>xsd:string</td><td>1</td><td>1</td><td>Affiliation of the corresponding author.</td></tr>
+								<tr><td>department</td><td>xsd:string</td><td>0</td><td>1</td><td>Department of the organization of the corresponding author.</td></tr>
+								<tr><td>laboratory</td><td>xsd:string</td><td>0</td><td>1</td><td>Name of the laboratory of the corresponding author.</td></tr>
+								<tr><td>address</td><td>xsd:string</td><td>0</td><td>1</td><td>Postal address of the corresponding author.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;contact&gt;
+  &lt;name&gt;Shuichi Onami&lt;/name&gt;
+  &lt;E-mail&gt;......@.......&lt;/E-mail&gt;
+  &lt;organization&gt;RIKEN&lt;/organization&gt;
+  &lt;department&gt;Quantitative Biology Center&lt;/department&gt;
+  &lt;laboratory&gt;Laboratory for Developmental Dynamics&lt;/laboratory&gt;
+  &lt;address&gt;2-2-3 Minatojima-minamimachi, Chuo-ku, Kobe 650-0047, Japan&lt;/address&gt;
+&lt;/contact&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="method">methods</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Methods/procedures used to obtain the data described in the BDML file.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Methods</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>summary</td><td>xsd:string</td><td>1</td><td>1</td><td>Detailed information about methods used to obtain the data.</td></tr>
+								<tr><td>source</td><td>xsd:anyURI</td><td>0</td><td>1</td><td>A URL link to original sources such as microscope images of an in vivo measurement or files of mathematical model of a computer simulation.</td></tr>
+								<tr><td>pdpml</td><td>xsd:anyURI</td><td>0</td><td>1</td><td>A URL link to a PDPML (Procedures for Data Processing Markup Language) file.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;methods&gt;
+  &lt;summary&gt;See details in Kyoda et al. (2013) Nucleic Acids Res 41, D732-D737.&lt;/summary&gt;
+  &lt;source&gt;http://ssbd.qbic.riken.jp/data/source/Ce_KK_P002/wt_N2_030131_01/wt_N2_030131_01.zip&lt;/source&gt;
+  &lt;pdpml&gt;http://ssbd.qbic.riken.jp/data/pdpml/Ce_KK_P002.pdpml0.05.xml&lt;/pdpml&gt;
+&lt;/methods&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="data">data</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Numerical data described in the BDML file.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Data</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td><a href="#scaleUnit">scaleUnit</a></td><td>ScaleUnit</td><td>1</td><td>1</td><td>Scales and measurement units of spatial coordinates and time.</td></tr>
+								<tr><td><a href="#object">object</a></td><td>Object</td><td>1</td><td>unlimited</td><td>Types of object detected from microscope images used in an in vivo measurement or from the result of a computer simulation.</td></tr>
+								<tr><td><a href="#feature">feature</a></td><td>Feature</td><td>0</td><td>unlimited</td><td>Types of feature within the objects.</td></tr>
+								<tr><td><a href="#component">component</a></td><td>Component</td><td>1</td><td>unlimited</td><td>A collection of objects and their spatial information at a given point of time.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;data&gt;
+  &lt;scaleUnit&gt;
+    &lt;xScale&gt;0.105&lt;/xScale&gt;
+    ...
+  &lt;/scaleUnit&gt;
+  &lt;object&gt;
+    &lt;objectName&gt;
+  &lt;/object&gt;
+  &lt;component&gt;
+    &lt;componentID&gt;1000&lt;componentID&gt;
+    ...
+    ...
+  &lt;/component&gt;
+  ...
+&lt;/data&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="scaleUnit">scaleUnit</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Scale and unit of coordinates and time.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>ScaleUnit</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>xScale</td><td>xsd:double</td><td>1</td><td>1</td><td>Scale in x dimension.</td></tr>
+								<tr><td>yScale</td><td>xsd:double</td><td>1</td><td>1</td><td>Scale in y dimension.</td></tr>
+								<tr><td>zScale</td><td>xsd:double</td><td>1</td><td>1</td><td>Scale in z dimension.</td></tr>
+								<tr><td>xyzUnit</td><td><a href="#UnitKind">UnitKind</a></td><td>1</td><td>1</td><td>Measurement unit of x, y and z dimensions.</td></tr>
+								<tr><td>tScale</td><td>xsd:double</td><td>0</td><td>1</td><td>Time scale.</td></tr>
+								<tr><td>tUnit</td><td><a href="#tUnitKind">tUnitKind</a></td><td>1</td><td>1</td><td>Measurement unit of time.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;scaleUnit&gt;
+  &lt;xScale&gt;0.105&lt;/xScale&gt;
+  &lt;yScale&gt;0.105&lt;/yScale&gt;
+  &lt;zScale&gt;0.5&lt;/zScale&gt;
+  &lt;xyzUnit&gt;micrometer&lt;/xyzUnit&gt;
+  &lt;tScale&gt;40.0&lt;/tSCale&gt;
+  &lt;tUnit&gt;second&lt;/tUnit&gt;
+&lt;/scaleUnit&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td>The zScale should be set to 0.0 for describing data in two dimension.</td>
+					</tr>
+				</table>
+			</div>
+
+			
+			<div class="text">
+				<h3><u>&lt;<a name="object">object</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Types of object detected from microscope images in an in vivo measurement or from the result of a computer simulation.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Object</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>objectName</td><td>xsd:string</td><td>1</td><td>1</td><td>Name of object.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;object&gt;
+  &lt;objectName&gt;nucleus&lt;/objectName&gt;
+&lt;/object&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="feature">feature</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Types of feature within the objects.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Feature</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>featureName</td><td>xsd:string</td><td>1</td><td>1</td><td>Name of feature.</td></tr>
+								<tr><td>featureScale</td><td>xsd:double</td><td>1</td><td>1</td><td>Scaling ratio of feature.</td></tr>
+								<tr><td>featureUnit</td><td><a href="#UnitKind">UnitKind</a></td><td>1</td><td>1</td><td>Measurement unit of feature.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;feature&gt;
+  &lt;featureName&gt;total GFP signal&lt;/featureName&gt;
+  &lt;featureScale&gt;1.0&lt;/featureScale&gt;
+  &lt;featureUnit&gt;intensity&lt;/featureUnit&gt;
+&lt;/feature&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="component">component</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>A collection of objects and their spatial information at a given point of time.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Component</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>componentID</td><td>xsd:string</td><td>1</td><td>1</td><td>A unique ID of a component.</td></tr>
+								<tr><td>componentName</td><td>xsd:string</td><td>0</td><td>1</td><td>Name of the component.</td></tr>
+								<tr><td>time</td><td>xsd:double</td><td>1</td><td>1</td><td>Time (e.g., time point/time frame).</td></tr>
+								<tr><td>prevID</td><td>xsd:string</td><td>0</td><td>unlimited</td><td>Connectivity with another component from a previous time point/frame.</td></tr>
+								<tr><td><a href="#measurement">measurement</a></td><td>Measurement</td><td>1</td><td>unlimited</td><td>Spatial information of objects.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;component&gt;
+  &lt;componentID&gt;2000&lt;/componentID&gt;
+  &lt;componentName&gt;P0&lt;/componentName&gt;
+  &lt;time&gt;2&lt;/time&gt;
+  &lt;prevID&gt;1000&lt;/prevID&gt;
+  &lt;measurement&gt;
+    &lt;objectRef&gt;nucleus&lt;/objectRef&gt;
+    &lt;line&gt;
+      ...
+      ...
+    &lt;/line&gt;
+  &lt;/measurement&gt;
+&lt;/component&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="measurement">measurement</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Spatial information of objects.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Measurement</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>objectRef</td><td>xsd:string</td><td>1</td><td>1</td><td>Reference to the objects defined in <a href="#object">object</a>.</td></tr>
+								<tr><td><a href="#point">point</a></td><td>Point</td><td>0</td><td>1</td><td>Point entity type.</td></tr>
+								<tr><td><a href="#line">line</a></td><td>Line</td><td>0</td><td>1</td><td>Line entity type.</td></tr>
+								<tr><td><a href="#circle">circle</a></td><td>Circle</td><td>0</td><td>1</td><td>Circle entity type.</td></tr>
+								<tr><td><a href="#sphere">sphere</a></td><td>Sphere</td><td>0</td><td>1</td><td>Sphere entity type.</td></tr>
+								<tr><td><a href="#face">face</a></td><td>Face</td><td>0</td><td>1</td><td>Face entity type.</td></tr>
+								<tr><td><a href="#property">property</a></td><td>Property</td><td>0</td><td>unlimited</td><td>Features of an object.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;measurement&gt;
+  &lt;objectRef&gt;nucleus&lt;/objectRef&gt;
+  &lt;line&gt;
+    &lt;xyzSequence&gt;
+      ...
+      ...
+    &lt;/xyzSequence&gt;
+  &lt;/line&gt;
+&lt;/measurement&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="point">point</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Point entity type.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Point</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td><a href="#xyz">xyz</a></td><td>XYZ</td><td>1</td><td>unlimited</td><td>3-dimensional coordinates of a point.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;point&gt;
+  &lt;xyz&gt;
+    &lt;x&gt;1.045&lt;/x&gt;
+    &lt;y&gt;4.421&lt;/y&gt;
+    &lt;z&gt;6.214&lt;/z&gt;
+  &lt;/xyz&gt;
+&lt;/point&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+
+
+			<div class="text">
+				<h3><u>&lt;<a name="line">line</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Line entity type.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Line</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td><a href="#xyzSequence">xyzSequence</a></td><td>XYZSequence</td><td>1</td><td>unlimited</td><td>A continuous sequence points defined by a set of coordinates. If the line is closed, i.e. the starting point is the same as the end point, the sequence of points should be written in counter-clockwise direction.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;line&gt;
+  &lt;xyzSequence&gt;
+    &lt;xyz&gt;
+      ...
+      ...
+      ...
+    &lt;/xyz&gt;
+  &lt;/xyzSequence&gt;
+&lt;/line&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="circle">circle</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Circle entity type.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Circle</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td><a href="#xyz">xyz</a></td><td>XYZ</td><td>1</td><td>1</td><td>Center of a circle.</td></tr>
+								<tr><td>radius</td><td>xsd:double</td><td>1</td><td>1</td><td>Radius of a circle.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;circle&gt;
+  &lt;xyz&gt;
+    &lt;x&gt;163&lt;/x&gt;
+    &lt;y&gt;343&lt;/y&gt;
+    &lt;z&gt;0&lt;/z&gt;
+  &lt;/xyz&gt;
+  &lt;radius&gt;1.62&lt;/radius&gt;
+&lt;/circle&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="sphere">sphere</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Sphere entity type.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Sphere</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td><a href="#xyz">xyz</a></td><td>XYZ</td><td>1</td><td>1</td><td>Center of a sphere.</td></tr>
+								<tr><td>radius</td><td>xsd:double</td><td>1</td><td>1</td><td>Radius of a sphere.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;sphere&gt;
+  &lt;xyz&gt;
+    &lt;x&gt;163&lt;/x&gt;
+    &lt;y&gt;343&lt;/y&gt;
+    &lt;z&gt;6.1&lt;/z&gt;
+  &lt;/xyz&gt;
+  &lt;radius&gt;1.62&lt;/radius&gt;
+&lt;/sphere&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+
+
+			<div class="text">
+				<h3><u>&lt;<a name="face">face</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Face entity type.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Face</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td><a href="#xyzTriplet">xyzTriplet</a></td><td>XYZTriplet</td><td>1</td><td>unlimited</td><td>xyzTriplet is defined as a set of three points, Their coordinates are written in a counter-clockwise order when viewed from the outside of an object.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;face&gt;
+  &lt;xyzTriplet&gt;
+    &lt;xyz&gt;
+      ...
+    &lt;/xyz&gt;
+    &lt;xyz&gt;
+      ...
+    &lt;/xyz&gt;
+    &lt;xyz&gt;
+      ...
+    &lt;/xyz&gt;
+  &lt;/xyzTriplet&gt;
+&lt;/face&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td>A face is defined by three points. Orientation of a face determines which side of the face is facing inside or outside of an object. To determine the orientation of a face, the coordinates of the face have to be written in counter clockwise order.</td>
+					</tr>
+				</table>
+			</div>
+
+
+
+			<div class="text">
+				<h3><u>&lt;<a name="xyzSequence">xyzSequence</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>A sequence of coordinates written in counter-clockwise direction.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>XYZSequence</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td><a href="#xyz">xyz</a></td><td>XYZ</td><td>1</td><td>unlimited</td><td>3-dimensional x, y, z coordinates.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;xyzSequence&gt;
+  &lt;xyz&gt;
+    ...
+  &lt;/xyz&gt;
+  &lt;xyz&gt;
+    ...
+  &lt;/xyz&gt;
+  ...
+&lt;/xyzSequence&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>			
+
+
+
+			<div class="text">
+				<h3><u>&lt;<a name="xyzTriplet">xyzTriplet</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>It is a set of three points. Their coordinates are written in a counter-clockwise order when viewed from the outside of an object.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>XYZTriplet</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td><a href="#xyz">xyz</a></td><td>XYZ</td><td>3</td><td>3</td><td>3-dimensional coordinate.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;xyzTriplet&gt;
+  &lt;xyz&gt;
+    &lt;x&gt;0.5&lt;/x&gt;
+    &lt;y&gt;1.2&lt;/y&gt;
+    &lt;z&gt;0.0&lt;/z&gt;
+  &lt;/xyz&gt;
+  &lt;xyz&gt;
+    &lt;x&gt;0.0&lt;/x&gt;
+    &lt;y&gt;1.0&lt;/y&gt;
+    &lt;z&gt;0.0&lt;/z&gt;
+  &lt;/xyz&gt;
+  &lt;xyz&gt;
+    &lt;x&gt;0.2&lt;/x&gt;
+    &lt;y&gt;0.5&lt;/y&gt;
+    &lt;z&gt;0.0&lt;/z&gt;
+  &lt;/xyz&gt;
+&lt;/xyzTriplet&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="xyz">xyz</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Three-dimensional coordinates.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>XYZ</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>x</td><td>xsd:double</td><td>1</td><td>1</td><td>X dimension.</td></tr>
+								<tr><td>y</td><td>xsd:double</td><td>1</td><td>1</td><td>Y dimension.</td></tr>
+								<tr><td>z</td><td>xsd:double</td><td>1</td><td>1</td><td>Z dimension.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;xyz&gt;
+  &lt;x&gt;0.5&lt;/x&gt;
+  &lt;y&gt;1.2&lt;/y&gt;
+  &lt;z&gt;0.0&lt;/z&gt;
+&lt;/xyz&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="property">property</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>The measured or computed feature and its numerical value of an object.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Property</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>featureRef</td><td>xsd:double</td><td>1</td><td>1</td><td>Reference to the features defined in <a href="#feature">feature</a> element.</td></tr>
+								<tr><td>featureVal</td><td>xsd:double</td><td>1</td><td>1</td><td>Value of the feature.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;property&gt;
+  &lt;featureRef&gt;total GFP signal&lt;/featureRef&gt;
+  &lt;featureVal&gt;103162&lt;/featureVal&gt;
+&lt;/property&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="series">series</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>A series of BDML data files which are obtained from the same experiment or simulation.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Series</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>bdmlIDRef</td><td><a href="#UUIDType">UUIDType</a></td><td>1</td><td>unlimited</td><td>bdmlID of a BDML file.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;series&gt;
+  &lt;bdmlIDRef&gt;563d487f-1676-4159-a3ab-c25c2e198f6c&lt;/bdmlIDRef&gt;
+  ...
+  ...
+&lt;/series&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+
+			<div class="text">
+				<h3><u>&lt;<a name="set">set</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>A set of BDML data files which are referenced in the same article.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Set</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>bdmlIDRef</td><td><a href="#UUIDType">UUIDType</a></td><td>1</td><td>unlimited</td><td>bdmlID of a BDML file.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;series&gt;
+  &lt;bdmlIDRef&gt;563d487f-1676-4159-a3ab-c25c2e198f6c&lt;/bdmlIDRef&gt;
+  ...
+  ...
+&lt;/series&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			
+
+			
+			<div class="text">
+				<h3><u><a name="UUIDType">UUIDType</a></u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>A universally unique identifier.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>xsd:string</td>
+					</tr>
+					<tr>
+						<td class="label">Pattern: </td>
+						<td>
+							<table class="layout2">
+								<tr><td>[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			
+			
+
+			<div class="text">
+				<h3><u><a name="BasedOn">BasedOn</a></u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Indicates whether data was produced from an in vivo measurement or from a computer simulation.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>xsd:string</td>
+					</tr>
+					<tr>
+						<td class="label">Enumeration: </td>
+						<td>
+							<table class="layout2">
+								<tr><td>Experiment</td><td>Simulation</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+
+			<div class="text">
+				<h3><u><a name="UnitKind">UnitKind</a></u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Unit of numerical value in the data.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>xsd:string</td>
+					</tr>
+					<tr>
+						<td class="label">Enumeration: </td>
+						<td>
+							<table class="layout2">
+								<tr><td>ampere</td><td>becquerel</td><td>candela</td><td>Celsius</td><td>coulomb</td><td>dimensionless</td><td>farad</td><td>gram</td><td>gray</td><td>henry</td><td>hertz</td><td>intensity</td><td>item</td><td>joule</td></tr>
+								<tr><td>katal</td><td>kelvin</td><td>kilogram</td><td>liter</td><td>lumen</td><td>lux</td><td>meter</td><td>metre</td><td>micrometer</td><td>micrometre</td><td>mole</td><td>newton</td><td>ohm</td><td>pascal</td></tr>
+								<tr><td>pixel</td><td>radian</td><td>siemens</td><td>sievert</td><td>steradian</td><td>tesla</td><td>volt</td><td>watt</td><td>weber</td><td></td><td></td><td></td><td></td><td></td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>			
+
+
+			<div class="text">
+				<h3><u><a name="tUnitKind">tUnitKind</a></u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Unit of time.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>xsd:string</td>
+					</tr>
+					<tr>
+						<td class="label">Enumeration: </td>
+						<td>
+							<table class="layout2">
+								<tr><td>nanosecond</td><td>microsecond</td><td>millisecond</td></tr>
+								<tr><td>second</td><td>minute</td><td>hour</td></tr>
+								<tr><td>day</td><td>month</td><td>year</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			
+
+		</div>
+	</div>
+{% endblock %}

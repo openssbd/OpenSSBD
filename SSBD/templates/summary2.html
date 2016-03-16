@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block title %}Summary of BDML data{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<div class="main">
+
+<h2>Summary of BDML data</h2>
+
+{% if bdml %}
+<div class="text">
+<table class="layout">
+  <tr><td class="label">BDML ID</td><td>{{ bdml.bdmlUUID }} (schema: {{ bdml.schema_ver }}, status: <a href="/history/{{ bdml.meta_data.id }}/">{{ bdml.status }}</a>)
+</td></tr>
+  <tr><td class="label">Title</td><td>{{ bdml.meta_data.title }}</td></tr>
+  <tr><td class="label">License</td><td>{{ bdml.meta_data.license }} license</td></tr>
+  <tr><td class="label">Description</td><td>{{ bdml.meta_data.description }}</td></tr>
+  <tr><td class="label">Organism</td><td>{{ bdml.meta_data.organism }}</td></tr>
+  <tr><td class="label">Datatype</td><td>{{ bdml.meta_data.datatype }}</td></tr>
+  <tr><td class="label">Local ID</td><td>{{ bdml.meta_data.localid }}</td></tr>
+  <tr><td class="label">Basedon</td><td> {{ bdml.meta_data.basedon }}</td></tr>
+  <tr><td class="label">Contributor</td><td> {{ bdml.meta_data.contributors }}</td></tr>
+{% if bdml.meta_data.PMID %}
+  <tr><td class="label">PubMed ID</td><td><a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ bdml.meta_data.PMID }}" target="_blank" class="exlink">{{ bdml.meta_data.PMID }}</a>
+</td></tr>
+{% endif %}
+  <tr><td class="label">Contact Information</td><td>{{ bdml.meta_data.name }}, {{ bdml.meta_data.organization }}, {{ bdml.meta_data.department }}, {{ bdml.meta_data.laboratory }}</td></tr>
+  <tr><td class="label">Summary of methods</td><td>{{ bdml.meta_data.method_summary }}</td></tr>
+
+{% if available %}
+
+{% if external_source != None %}
+  <tr><td class="label">Source</td><td><a href="{{ external_source }}" target="_blank">{{ external_source }}</a>
+{% if internal_source != None %}
+(<a href="http://ssbd.qbic.riken.jp{{ internal_source }}.md5" target="_blank">md5</a>)
+{% endif %}
+</td></tr>
+{% else %}
+{% if internal_source != None %}
+  <tr><td class="label">Source</td><td><a href="http://ssbd.qbic.riken.jp{{ internal_source }}" target="_blank">http://ssbd.qbic.riken.jp{{ internal_source }}</a>
+(<a href="http://ssbd.qbic.riken.jp{{ internal_bdml }}.md5" target="_blank">md5</a>)
+</td></tr>
+{% else %}
+  <tr><td class="label">Source</td><td>None</td></tr>
+{% endif %}
+{% endif %}
+
+{% if external_bdml != None %}
+  <tr><td class="label">BDML file</td><td><a href="{{ external_bdml }}" target="_blank">{{ external_bdml }}</a> 
+{% if internal_bdml != None %}
+(<a href="http://ssbd.qbic.riken.jp{{ internal_bdml }}.md5" target="_blank">md5</a>)
+{% endif %}
+</td></tr>
+{% else %}
+{% if internal_bdml != None %}
+  <tr><td class="label">BDML file</td><td><a href="http://ssbd.qbic.riken.jp{{ internal_bdml }}" target="_blank">http://ssbd.qbic.riken.jp{{ internal_bdml }}</a> 
+(<a href="http://ssbd.qbic.riken.jp{{ internal_bdml }}.md5" target="_blank">md5</a>)
+</td></tr>
+{% else %}
+  <tr><td class="label">BDML file</td><td>None</td></tr>
+{% endif %}
+{% endif %}
+
+{% if external_pdpml != None %}
+  <tr><td class="label">PDPML file</td><td><a href="{{ external_pdpml }}" target="_blank">{{ external_pdpml }}</a> 
+{% if internal_pdpml != None %}
+(<a href="http://ssbd.qbic.riken.jp{{ internal_pdpml }}.md5" target="_blank">md5</a>)
+{% endif %}
+</td></tr>
+{% else %}
+{% if internal_pdpml != None %}
+  <tr><td class="label">PDPML file</td><td><a href="http://ssbd.qbic.riken.jp{{ internal_pdpml }}" target="_blank">http://ssbd.qbic.riken.jp{{ internal_pdpml }}</a>
+(<a href="http://ssbd.qbic.riken.jp{{ internal_pdpml }}.md5" target="_blank">md5</a>)
+</td></tr>
+{% else %}
+  <tr><td class="label">PDPML</td><td>None</td></tr>
+{% endif %}
+{% endif %}
+
+{% endif %}
+
+{% if bdml.scaleunit %}
+  <tr><td class="label">Data Scale (XYZ,T)</td><td>
+      {{ bdml.scaleunit.xScale }} x {{ bdml.scaleunit.yScale }} x {{ bdml.scaleunit.zScale }} ({{ bdml.scaleunit.xyzUnit }}), {{ bdml.scaleunit.tScale }} ({{ bdml.scaleunit.tUnit }})
+      </td></tr>
+{% endif %}
+{% if link_list %}
+  <tr><td class="label">External links</td><td>
+  {% for link in link_list %}
+  <p><a href="{{ link.URL }}" target="_blank" class="exlink">{{ link.database }}: {{ link.symbol }}</a>, {{ link.category }} of {{ link.organism }}, {{ link.gene }}</p>
+  {% endfor %}
+      </td></tr>
+{% endif %}
+</table>
+</div>
+
+{% if available %}
+<div class="right_botton">
+<form>
+{% if bdml.quant_data %}
+<input id="btn" type="button" value="View" onClick="location.href='/view4d/{{ bdml.quant_data.id}}'" target="_blank">
+{% endif %}
+{% if internal_source != None %}
+  <input id="btn" type="button" value="DL Images" onClick="location.href='{{ internal_source }}'" target="_blank">
+{% endif %}
+{% if internal_bdml != None %}
+  <input id="btn" type="button" value="DL BDML" onClick="location.href='{{ internal_bdml }}'" target="_blank">
+{% endif %}
+{% if internal_pdpml != None %}
+  <input id="btn" type="button" value="DL PDPML" onClick="location.href='{{ internal_pdpml }}'" target="_blank">
+{% endif %}
+</form>
+</div>
+{% endif %}
+
+<h2>Summary of Images</h2>
+{% if omero %}
+<div class="text">
+<table class="layout">
+  <tr><td class="label">Dataset name</td>
+      <td>{{ omero.dataset.name }} (<a href='http://ssbd.qbic.riken.jp/omero/webclient/?show=dataset-{{ omero.dataset.id }}' target="_blank">view dataset in OMERO.web</a>)</td></tr>
+  <tr><td class="label">Number of images</td>
+      <td>{{ omero.dataset.image_count }}</td></tr>
+  <tr><td class="label">Sample Image information</td>
+      <td>{{ omero.image.name }} (<a href='http://ssbd.qbic.riken.jp/omero/webclient/img_detail/{{ omero.image.id }}' target="_blank">view image in OMERO.web</a>)</td></tr>
+  <tr><td class="label"></td>
+      <td>Dimensions (XYZT): {{ omero.image.x }} x {{ omero.image.y }} x {{ omero.image.z }} x {{ omero.image.t }}</td></tr>
+  <tr><td class="label"></td>
+      <td>Pixels Type: {{ omero.image.pixel_type }}</td></tr>
+{% if omero.pixel_x %}
+  <tr><td class="label"></td>
+      <td>Pixels Size(XYZ)(um): {{ omero.pixel_x }} x {{ omero.pixel_y }} x {{ omero.pixel_z }}</td></tr>
+{% endif %}
+  <!-- tr><td class="label"></td -->
+      <!-- td>Timepoints: {{ omero.dataset.image_count }}</td></tr -->
+  <tr><td class="label"></td>
+      <td>Channels: {{ omero.image.c }}</td></tr>
+  <tr><td class="label">Sample Image</td>
+      <td><img src="{% get_static_prefix %}WEB/th_images/{{ omero.image.path }}" class="image_frame" /></td></tr>
+</table>
+</div>
+{% else %}
+<div class="text">No data.</div>
+{% endif %}
+{% else %}
+<div class="text">No data.</div>
+{% endif %}
+
+{% if debug != None %}
+<h2>Debug</h2>
+<div class="text"><p style="color: red;">{{ debug }}</p></div>
+{% endif %}
+
+</div>
+{% endblock %}

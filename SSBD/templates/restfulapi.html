@@ -1,0 +1,487 @@
+{% extends "base.html" %}
+{% block title %}RESTful API{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li class="active"><a href="/manuals/">Manuals</a></li>
+    <li ><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+<div class="main">
+<h2 id="WhatisSSBDAPI">What is SSBD API?</h2>
+<p>
+<strong>SSBD API</strong> is the Application Programming Interface for accessing the internal data of the SSBD database. The API is based on the web development practice of using <a href="http://en.wikipedia.org/wiki/Representational_state_transfer" class="exlink" target="_blank">RESTFul</a> architecture. A RESTful API call is simply an HTTP request to the SSBD server.
+</p>
+<h2 id="Prerequisite">Prerequisite</h2>
+<p>
+Before you begin, you need to be familiar with BDML file, its terminology and its schema. Please refer to <a href="/bdml/bdml0.18specification.html"><span class="icon">​</span>BDML version 0.18 Specification</a> for more information.
+<BR>
+Although the internal data structure is different from the BDML file format, much of its terminology and the data structure are derived from BDML file format.
+</p>
+<h2 id="SummaryofSSBDAPI">Summary of SSBD API</h2>
+<table class="wiki">
+<tr><th> <strong>API</strong> </th><th> <strong>Request Method</strong> </th><th> <strong>Functions</strong> </th><th> <strong>Status</strong> 
+</th></tr><tr><td style="text-align: left">/SSBD/api/v1/      </td><td> GET    </td><td style="text-align: left">list all the available APIs </td><td> 
+</td></tr><tr><td style="text-align: left">/SSBD/api/v1/bdml/      </td><td> GET    </td><td style="text-align: left">retrieve bdmlUUID </td><td> <em>depreciated; only support BDML v0.15</em>; see data api instead 
+</td></tr><tr><td style="text-align: left">/SSBD/api/v1/contact/ </td><td> GET  </td><td style="text-align: left">retrieve the contact details of a BDML file record </td><td> <em>depreciated; only support BDML v0.15</em>; see data api instead 
+</td></tr><tr><td style="text-align: left">/SSBD/api/v1/coordsXYZ/ </td><td> GET  </td><td style="text-align: left">retrieve the coordinates and other details in the BDML file record </td><td> <em>only applicable to BDML ver 0.15</em> 
+</td></tr><tr><td style="text-align: left"><strong>/SSBD/api/v1/data/</strong> </td><td> GET    </td><td> retrieve all the meta data of a BDML file record </td><td> <strong>replaces info, summay and contact api</strong> 
+</td></tr><tr><td style="text-align: left">/SSBD/api/v1/info/ </td><td> GET    </td><td style="text-align: left">retrieve the info details of a BDML file record  </td><td> <em>depreciated; only support BDML v0.15</em>; see data api instead 
+</td></tr><tr><td style="text-align: left">/SSBD/api/v1/meta_data/ </td><td> GET  </td><td style="text-align: left">retrieve meta data of a BDML file record </td><td> similar to data api 
+</td></tr><tr><td style="text-align: left">/SSBD/api/v1/scale/ </td><td> GET  </td><td style="text-align: left">retrieve the scales used in the BDML file record </td><td> <em>only applicable to BDML ver 0.15</em> 
+</td></tr><tr><td style="text-align: left">/SSBD/api/v1/summary/ </td><td> GET  </td><td style="text-align: left">retrieve the summary details of a BDML file record </td><td> <em>depreciated; only support BDML v0.15</em>; see data api instead 
+</td></tr></table>
+<h2 id="SSBDAPISchema">SSBD API Schema</h2>
+<p>
+There are two default formats that the API will return. It can either return the data in <strong>XML</strong> or <strong>JSON</strong> formats.
+</p>
+</div>
+<div class="text">
+<ul><li>Example of query the available schema using SSBD API in XML format:
+<ul><li><a href="http://ssbd.qbic.riken.jp/SSBD/api/v1/?format=xml">http://ssbd.qbic.riken.jp/SSBD/api/v1/?format=xml</a></li></ul></li></ul>
+<pre class="layout2">
+<font size=3>
+&lt;response&gt;
+   &lt;bdml type="hash"&gt;
+      &lt;list_endpoint&gt;/SSBD/api/v1/bdml/&lt;/list_endpoint&gt;
+      &lt;schema&gt;/SSBD/api/v1/bdml/schema/&lt;/schema&gt;
+   &lt;/bdml&gt;
+   &lt;contact type="hash"&gt;
+      &lt;list_endpoint&gt;/SSBD/api/v1/contact/&lt;/list_endpoint&gt;
+      &lt;schema&gt;/SSBD/api/v1/contact/schema/&lt;/schema&gt;
+   &lt;/contact&gt;
+   &lt;coordsXYZ type="hash"&gt;
+      &lt;list_endpoint&gt;/SSBD/api/v1/coordsXYZ/&lt;/list_endpoint&gt;
+      &lt;schema&gt;/SSBD/api/v1/coordsXYZ/schema/&lt;/schema&gt;
+   &lt;/coordsXYZ&gt;
+   &lt;data type="hash"&gt;
+      &lt;list_endpoint&gt;/SSBD/api/v1/data/&lt;/list_endpoint&gt;
+      &lt;schema&gt;/SSBD/api/v1/data/schema/&lt;/schema&gt;
+   &lt;/data&gt;
+   &lt;info type="hash"&gt;
+      &lt;list_endpoint&gt;/SSBD/api/v1/info/&lt;/list_endpoint&gt;
+      &lt;schema&gt;/SSBD/api/v1/info/schema/&lt;/schema&gt;
+   &lt;/info&gt;
+   &lt;meta_data type="hash"&gt;
+      &lt;list_endpoint&gt;/SSBD/api/v1/meta_data/&lt;/list_endpoint&gt;
+      &lt;schema&gt;/SSBD/api/v1/meta_data/schema/&lt;/schema&gt;
+   &lt;/meta_data&gt;
+   &lt;scale type="hash"&gt;
+      &lt;list_endpoint&gt;/SSBD/api/v1/scale/&lt;/list_endpoint&gt;
+      &lt;schema&gt;/SSBD/api/v1/scale/schema/&lt;/schema&gt;
+   &lt;/scale&gt;
+   &lt;summary type="hash"&gt;
+      &lt;list_endpoint&gt;/SSBD/api/v1/summary/&lt;/list_endpoint&gt;
+      &lt;schema&gt;/SSBD/api/v1/summary/schema/&lt;/schema&gt;
+   &lt;/summary&gt;
+&lt;/response&gt;
+</font>
+</pre>
+</div>
+<div class="text">
+   
+<ul><li>Example of query the available schema using SSBD API in JSON format:
+<ul><li><a href="http://ssbd.qbic.riken.jp/SSBD/api/v1/?format=json"><span class="icon">​</span>http://ssbd.qbic.riken.jp/SSBD/api/v1/?format=json</a>
+</li></ul></li></ul>
+<pre class="layout2">
+<font size=3>
+{
+   "bdml"        : {"list_endpoint": "/SSBD/api/v1/bdml/", 
+                    "schema": "/SSBD/api/v1/bdml/schema/"}, 
+   "contact"     : {"list_endpoint": "/SSBD/api/v1/contact/", 
+                    "schema": "/SSBD/api/v1/contact/schema/"}, 
+   "coordsXYZ"   : {"list_endpoint": "/SSBD/api/v1/coordsXYZ/", 
+                    "schema": "/SSBD/api/v1/coordsXYZ/schema/"}, 
+   "data"        : {"list_endpoint": "/SSBD/api/v1/data/", 
+                    "schema": "/SSBD/api/v1/data/schema/"}, 
+   "info"        : {"list_endpoint": "/SSBD/api/v1/info/", 
+                    "schema": "/SSBD/api/v1/info/schema/"}, 
+   "meta_data"   : {"list_endpoint": "/SSBD/api/v1/meta_data/", 
+                    "schema": "/SSBD/api/v1/meta_data/schema/"}, 
+   "scale"       : {"list_endpoint": "/SSBD/api/v1/scale/", 
+                    "schema": "/SSBD/api/v1/scale/schema/"}, 
+   "summary"     : {"list_endpoint": "/SSBD/api/v1/summary/", 
+                    "schema": "/SSBD/api/v1/summary/schema/"}
+}
+</font>
+</pre>
+</div>
+<div class="main">
+<h2 class="main">bdml API</h2>
+<dl class="main"><dt>Description</dt><dd>
+Retrieve the unique UUID information for the BDML data. <strong> <em>Depreciated; Only supports BDML v0.15;</em> Use data api instead </strong>
+</dd></dl>
+<table class="main">
+<tr><th> <strong>Fields</strong>      </th><th> <strong>Description</strong> </th><th> <strong>Usage example</strong> </th><th> <strong>Usage comment</strong> 
+</th></tr><tr><td style="text-align: left">bdml_ID          </td><td> unique BDML UUID identity number of the BDML data stored in SSBD </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/bdml/?format=xml;bdml_ID__icontains=247</tt> </td><td style="text-align: left">To retrieve bdmlUUID which contains '247' from SSBD 
+</td></tr><tr><td style="text-align: left">title          </td><td> Title of the BDML data stored in SSBD </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/bdml/?format=xml;title__icontains=coli</tt> </td><td style="text-align: left">To retrieve the title which contains the phrase 'coli' from SSBD 
+</td></tr><tr><td style="text-align: left">id          </td><td> internal unique id for data stored in SSBD </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/bdml/?format=xml;id=1</tt> </td><td style="text-align: left">To retrieve the data with internal id=1 from SSBD 
+</td></tr></table>
+<dl class="main"><dt><strong>bdml Schema</strong></dt><dd>
+<a href="http://ssbd.qbic.riken.jp/SSBD/api/v1/bdml/schema/?format=xml"><span class="icon">​</span>http://ssbd.qbic.riken.jp/SSBD/api/v1/bdml/schema/?format=xml</a>
+</dd></dl>
+<h2 id="contactAPI">contact API</h2>
+<dl class="main"><dt>Description</dt><dd>
+Contact information for the BDML data. <strong> <em>Depreciated; only supports BDML v0.15</em> Use data api instead </strong>
+</dd></dl>
+<table class="wiki">
+<tr><th> <strong>Fields</strong>      </th><th> <strong>Description</strong> </th><th> <strong>Usage example</strong> </th><th> <strong>Usage comment</strong> 
+</th></tr><tr><td style="text-align: left">bdml          </td><td> unique BDML UUID identity number of the BDML data stored in SSBD </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/contact/?format=xml;bdml__bdml_ID__icontains=247</tt> </td><td style="text-align: left">To retrieve Contact data from SSBD for bdmlUUID which contains '247' 
+</td></tr><tr><td style="text-align: left">name     </td><td> Name of corresponding author of the BDML data. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/contact/?format=xml;name__icontains=keller</tt> </td><td>To retrieve Contact data from SSBD for name that contains the phrase keller or Keller;
+</td></tr><tr><td style="text-align: left">E_mail       </td><td> E-mail address of the corresponding author. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">organization    </td><td> Affiliation of the corresponding author. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/contact/?format=xml;organization__icontains=riken</tt> </td><td> To retrieve Contact data from SSBD for organisation that contains the phrase "riken" 
+</td></tr><tr><td style="text-align: left">department     </td><td> Department of the organization of the corresponding author. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/contact/?format=xml;department__icontains=biology</tt> </td><td> To retrieve Contact data from SSBD for department that contains the phrase "dynamics" 
+</td></tr><tr><td style="text-align: left">laboratory     </td><td> Name of the laboratory of the corresponding author. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/contact/?format=xml;laboratory__icontains=dynamics</tt> </td><td> To retrieve Contact data from SSBD for laboratory that contains the phrase "dynamics" 
+</td></tr><tr><td style="text-align: left">address     </td><td> Postal address of the corresponding author. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/contact/?format=xml;address__icontains=kobe</tt> </td><td> To retrieve Contact data from SSBD for address that contains the phrase "kobe" 
+</td></tr><tr><td style="text-align: left">phone     </td><td> Phone number of the corresponding author. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">URL     </td><td> A URL link to corresponding author's laboratory or website. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr></table>
+<dl class="main"><dt><strong>Contact Schema</strong></dt><dd>
+<a href="http://ssbd.qbic.riken.jp/SSBD/api/v1/contact/schema/?format=xml"><span class="icon">​</span>http://ssbd.qbic.riken.jp/SSBD/api/v1/contact/schema/?format=xml</a>
+   
+</dd></dl>
+<h2 id="coordsXYZAPI">coordsXYZ API</h2>
+<dl class="main"><dt>Description</dt><dd>
+It provides an interface to retrieve the quantitative numerical data. <strong> <em>Only support BDML v0.15</em> </strong>
+</dd></dl>
+<table class="wiki">
+<tr><th> <strong>Fields</strong>      </th><th> <strong>Description</strong> </th><th> <strong>Usage example</strong> </th><th> <strong>Usage comment</strong> 
+</th></tr><tr><td style="text-align: left">bdml          </td><td> retrieve fields of bdml API including the unique BDML UUID identity number of the BDML data stored in SSBD. It uses "<tt>bdml__</tt>" as prefix for bdml API; Also see bdml API  </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/contact/?format=xml;bdml__bdml_ID__icontains=247</tt> </td><td style="text-align: left">To retrieve coordinates data from SSBD for bdmlUUID which contains '247' 
+</td></tr><tr><td style="text-align: left">entitytype     </td><td> Type of entity that the coordinates belong to, e.g. line, point, sphere, etc. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">entity       </td><td> entity ID. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">x    </td><td>x coordinates</td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">y     </td><td style="text-align: left">y coordinates </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">z     </td><td style="text-align: left">z coordinates. </td><td> NA </td><td> cannot be searched; retrieval only  
+</td></tr><tr><td style="text-align: left">t     </td><td> time point </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/coordsXYZ/?format=xml;bdml__bdml_ID__icontains=247;t=10</tt> </td><td> To retrieve numerical data from SSBD for time t=10 and bdmlUUID contains '247' 
+</td></tr></table>
+<dl class="main"><dt><strong>coordsXYZ Schema</strong></dt><dd>
+<a href="http://ssbd.qbic.riken.jp/SSBD/api/v1/coordsXYZ/schema/?format=xml"><span class="icon">​</span>http://ssbd.qbic.riken.jp/SSBD/api/v1/coordsXYZ/schema/?format=xml</a>
+</dd></dl>
+<h2 id="dataAPI">data API</h2>
+<dl class="main"><dt>Description</dt><dd>
+Retrieve  all the meta data described in the BDML file stored in SSBD. It replaces contact, info and summary API. It also covers BDML versions  including 0.15 and 0.18.
+</dd></dl>
+<table class="wiki">
+<tr><th> <strong>Fields</strong>      </th><th> <strong>Description</strong> </th><th> <strong>Usage example</strong> </th><th> <strong>Usage comment</strong> 
+</th></tr><tr><td style="text-align: left">bdmlUUID          </td><td> unique BDML UUID of the BDML data stored in SSBD </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/data/?format=xml;bdmlUUID__icontains=2475d</tt> </td><td style="text-align: left">To retrieve all the meta data from SSBD for bdmlUUID which contains "245d". Note that the field is changed from previous bdml_ID to bdmlUUID in the new API. 
+</td></tr><tr><td style="text-align: left">bdml_multipart_type          </td><td> it denotes whether the bdmlUUID data is part of a series. 1 stands for standalone file and 2 stands for file in a series. </td><td> NA </td><td>  Cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">external_bdml          </td><td> link to the actual bdml file </td><td> NA </td><td> Cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">external_pdpml          </td><td> link to the actual pdpml file </td><td> NA </td><td> Cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">external_source         </td><td> link to the actual source of the data </td><td> NA </td><td> Cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">localid     </td><td> Internal or local identifier used to identify the BDML data. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/localid/?format=xml;localid__icontains=B0336</tt> </td><td> To retrieve summary data from SSBD for localid that contains the phrase "B0336"  
+</td></tr><tr><td style="text-align: left">release     </td><td> date of the release of the data </td><td> NA </td><td> Cannot be searched; retrieval only  
+</td></tr><tr><td style="text-align: left">schema_ver     </td><td> version of the BDML schema used </td><td> NA </td><td> Cannot be searched; retrieval only  
+</td></tr><tr><td style="text-align: left">status     </td><td> status of the data </td><td> NA </td><td> Cannot be searched; retrieval only; only 'available' status is allowed to be retrieved  
+</td></tr><tr><td style="text-align: left">meta_data     </td><td> other meta-data of the BDML file data on SSBD; Searches require using "<tt>meta_data__</tt>"  as prefix of the fields being search; Also see meta_data API  </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/data/?format=xml;meta_data__name__icontains=water</tt> </td><td> To retrieve data given that the "name" field in meta_data API contains the phrase "water" 
+</td></tr></table>
+<dl class="main"><dt><strong>Data Schema</strong></dt><dd>
+<ul><li><a href="http://ssbd.qbic.riken.jp/SSBD/api/v1/data/schema/?format=xml"><span class="icon">​</span>http://ssbd.qbic.riken.jp/SSBD/api/v1/data/schema/?format=xml</a>
+</li></ul></dd></dl>
+<dl class="main"><dt><strong>Example of response</strong></dt><dd>
+<ul><li>Trying to retrieve meta data from SSBD for bdmlUUID that contains the phrase "2475d"
+</li><li>output format is in XML format
+<ul><li><tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/SSBD/api/v1/data/?format=xml;bdmlUUID__icontains=2475d</tt>
+<pre class="layout2">
+<font size=3>
+&lt;response&gt;
+&lt;meta type="hash"&gt;
+   &lt;limit type="integer"&gt;20&lt;/limit&gt;
+   &lt;next type="null"/&gt;
+   &lt;offset type="integer"&gt;0&lt;/offset&gt;
+   &lt;previous type="null"/&gt;
+   &lt;total_count type="integer"&gt;1&lt;/total_count&gt;
+&lt;/meta&gt;
+&lt;objects type="list"&gt;
+&lt;object&gt;
+   &lt;bdmlUUID&gt;bb7f643a-f50b-4552-bd23-a7f267e2475d&lt;/bdmlUUID&gt;
+   &lt;bdml_multipart_type&gt;2&lt;/bdml_multipart_type&gt;
+   &lt;external_bdml&gt;
+      http://ssbd.qbic.riken.jp/data/bdml/ZF_PJK/0011_zebrafish_animal_a.bdml0.18.xml
+   &lt;/external_bdml&gt;
+   &lt;external_pdpml&gt;
+      http://ssbd.qbic.riken.jp/data/pdpml/keller2008.pdpml0.06.xml
+   &lt;/external_pdpml&gt;
+   &lt;external_source type="null"/&gt;
+   &lt;localid&gt;zebrafish_animal_a.mat&lt;/localid&gt;
+   &lt;meta_data&gt;
+      &lt;E_mail&gt;keller@embl.de&lt;/E_mail&gt;
+      &lt;PMID type="integer"&gt;18845710&lt;/PMID&gt;
+      &lt;URL type="null"/&gt;
+      &lt;address type="null"/&gt;
+      &lt;basedon&gt;Measurement&lt;/basedon&gt;
+      &lt;citation type="null"/&gt;
+      &lt;contributors&gt;
+         Keller, P.J., Schmidt, A.D., Wittbrodt, J. and Stelzer, E.H.K.
+      &lt;/contributors&gt;
+      &lt;datatype&gt;nuclear positions&lt;/datatype&gt;
+      &lt;dblink&gt;http://www.embl.de/digitalembryo/fish.html&lt;/dblink&gt;
+      &lt;department&gt;Cell Biology and Biophysics Unit&lt;/department&gt;
+      &lt;description&gt;
+         reconstruction of the zebrafish animal hemisphere (A)
+      &lt;/description&gt;
+      &lt;gene type="null"/&gt;
+      &lt;laboratory&gt;Stelzer Laboratory&lt;/laboratory&gt;
+      &lt;license&gt;CC BY-NC-SA&lt;/license&gt;
+      &lt;localid&gt;zebrafish_animal_a.mat&lt;/localid&gt;
+      &lt;method_summary&gt;
+         See details in Keller et al. (2008) Science 322, 1065-1069.
+      &lt;/method_summary&gt;
+      &lt;name&gt;Philipp J. Keller&lt;/name&gt;
+      &lt;organism&gt;zebrafish&lt;/organism&gt;
+      &lt;organization&gt;European Molecular Biology Laboratory&lt;/organization&gt;
+      &lt;phone type="null"/&gt;
+      &lt;title&gt;
+         BDML file for reconstruction of the zebrafish animal hemisphere (A)
+      &lt;/title&gt;
+   &lt;/meta_data&gt;
+   &lt;release&gt;2008-09-01&lt;/release&gt;
+   &lt;resource_uri&gt;/SSBD/api/v1/data/510/&lt;/resource_uri&gt;
+   &lt;schema_ver&gt;0.180&lt;/schema_ver&gt;
+   &lt;status&gt;available&lt;/status&gt;
+&lt;/object&gt;
+&lt;/objects&gt;
+&lt;/response&gt;
+</font>
+</pre></li></ul></li></ul></dd></dl>
+<h2 id="infoAPI">info API</h2>
+<dl class="main"><dt>Description</dt><dd>
+Information about the BDML data stored in SSBD. <strong> <em>Depreciated; Only supports BDML v0.15;</em> Use data API instead </strong>
+</dd></dl>
+<table class="wiki">
+<tr><th> <strong>Fields</strong>      </th><th> <strong>Description</strong> </th><th> <strong>Usage example</strong> </th><th> <strong>Usage comment</strong> 
+</th></tr><tr><td style="text-align: left">id          </td><td> unique internal ID of the BDML data stored in SSBD </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/info/?format=xml;id=1</tt> </td><td style="text-align: left">To retrieve info data from SSBD for id=1 
+</td></tr><tr><td style="text-align: left">bdmlID      </td><td> Unique ID of the BDML data. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/info/?format=xml;bdmlID__icontains=705c</tt> </td><td>To retrieve info data from SSBD for bdmlID that contains the phrase 705c or 705C;
+</td></tr><tr><td style="text-align: left">title       </td><td> Title of the BDML data. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/info/?format=xml;title__contains=wild-type</tt> </td><td> To retrieve info data from SSBD for all the titles that contains the phrase "wild-type" 
+</td></tr><tr><td style="text-align: left">license     </td><td> License information of the BDML data </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">release     </td><td> Release date of the BDML data </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">version     </td><td> local version of the BDML data </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr></table>
+<dl class="main"><dt><strong> Info Schema</strong></dt><dd>
+<ul><li><a href="http://ssbd.qbic.riken.jp/SSBD/api/v1/info/schema/?format=xml"><span class="icon">​</span>http://ssbd.qbic.riken.jp/SSBD/api/v1/info/schema/?format=xml</a>
+</li></ul></dd></dl>
+<dl class="main"><dt><strong>Example of response</strong></dt><dd>
+<ul><li>Trying to retrieve Info data from SSBD with a title that contains the word "705c"
+</li><li>output format is in JSON (for easier formatting and viewing)
+<ul><li><tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/info/?format=json;bdmlID__icontains=705c</tt>
+<pre class="layout2">
+<font size=3>   
+{
+    "meta": {   "limit": 20, 
+                 "next": null, 
+               "offset": 0, 
+             "previous": null, 
+          "total_count": 1
+          }, 
+ "objects": [{
+               "bdmlID": "eb16443f-1956-48eb-8510-5f1ddc3b705c", 
+                   "id": 188, 
+              "license": "CC BY-NC-SA", 
+              "release": "2013-09-02", 
+                "title": "BDML file for the result of computer simulation of male pronuclear migration in C. elegans embryo", 
+              "version": 1}]
+}
+</font>
+</pre></li></ul></li></ul></dd></dl>
+<h2 id="meta_dataAPI">meta_data API</h2>
+<dl class="main"><dt>Description</dt><dd>
+Summary of the meta data described in the BDML file in SSBD
+</dd></dl>
+<table class="wiki">
+<tr><th> <strong>Fields</strong>      </th><th> <strong>Description</strong> </th><th> <strong>Usage example</strong> </th><th> <strong>Usage comment</strong> 
+</th></tr><tr><td style="text-align: left">E_mail       </td><td> E-mail address of the corresponding author. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">PMID     </td><td> <a href="http://www.ncbi.nlm.nih.gov/pubmed" class="exlink" target="_blank">PubMed</a> ID of the original published paper. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">URL     </td><td> A URL link to corresponding author's laboratory or website. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">address     </td><td> Postal address of the corresponding author. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/meta_data/?format=xml;address__icontains=kobe</tt> </td><td> To retrieve Contact data from SSBD for address that contains the phrase "kobe" 
+</td></tr><tr><td style="text-align: left">basedon     </td><td>Speficify whether the data was gathered from an in vivo measurement or from a computer simulation.</td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/meta_data/?format=xml;basedon__icontains=measurement</tt> </td><td> To retrieve summary data from SSBD for basedon that contains the name  "measurement or Measurement"; icontains mean that it is case insensitive 
+</td></tr><tr><td style="text-align: left">citation     </td><td> Detailed information about the original published paper. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">contributors     </td><td>Names of contributors who produce/collect the data.</td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/meta_data/?format=xml;contributors__icontains=keller</tt> </td><td style="text-align: left">To retrieve meta data from SSBD for contributors that contains the name  "keller or Keller or KELLER"; icontains mean that it is case insensitive 
+</td></tr><tr><td style="text-align: left">datatype       </td><td> Describes specific type of data that was represented in the BDML data </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/meta_data/?format=xml;;datatype__contains=dynamics</tt> </td><td> To retrieve meta data from SSBD for datatype that contains the phrase "dynamics" 
+</td></tr><tr><td style="text-align: left">dblink     </td><td> A URL link to the original database. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">department     </td><td> Department of the organization of the corresponding author. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/meta_data/?format=xml;department__icontains=biology</tt> </td><td> To retrieve meta data from SSBD for department that contains the phrase "dynamics" 
+</td></tr><tr><td style="text-align: left">description      </td><td> Detailed information about the data described in the BDML file. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/meta_data/?format=xml;description__icontains=simulation</tt> </td><td>To retrieve summary data from SSBD for  description that contain the word "simulation"
+</td></tr><tr><td style="text-align: left">laboratory     </td><td> Name of the laboratory of the corresponding author. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/meta_data/?format=xml;laboratory__icontains=dynamics</tt> </td><td> To retrieve meta data from SSBD for laboratory that contains the phrase "dynamics" 
+</td></tr><tr><td style="text-align: left">license     </td><td> License information of the data </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">localid     </td><td> Internal or local identifier used to identify the BDML data. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/meta_data/?format=xml;localid__contains=wt</tt> </td><td> To retrieve meta data from SSBD for local identifier or ID that contains the phrase "wt"  
+</td></tr><tr><td style="text-align: left">method_summary     </td><td> Summary of the method used in preparing for the data </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">organism     </td><td> Name of a targeted organism being described. Name is based on the NCBI taxonomy definition. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/meta_data/?format=xml;organism__contains=elegans</tt> </td><td style="text-align: left">To retrieve meta data from SSBD for organism that contains the phrase  "elegans" 
+</td></tr><tr><td style="text-align: left">organization    </td><td> Affiliation of the corresponding author. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/meta_data/?format=xml;organization__icontains=riken</tt> </td><td> To retrieve meta data from SSBD for organisation that contains the phrase "riken" 
+</td></tr><tr><td style="text-align: left">phone     </td><td> Phone number of the corresponding author. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr></table>
+<dl class="main"><dt><strong>Meta_data Schema</strong></dt><dd>
+<ul><li><a href="http://ssbd.qbic.riken.jp/SSBD/api/v1/meta_data/schema/?format=xml"><span class="icon">​</span>http://ssbd.qbic.riken.jp/SSBD/api/v1/meta_data/schema/?format=xml</a>
+</li></ul></dd></dl>
+<dl class="main"><dt><strong>Example of response</strong></dt><dd>
+<ul><li>Trying to retrieve summary data from SSBD for basedon that contains the word "coli" as in <em>E.coli</em>
+</li><li>output format is in XML format
+<ul><li><tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/meta_data/?format=xml;organism__icontains=coli</tt>
+<pre class="layout2">
+<font size=3>
+&lt;response&gt;
+   &lt;meta type="hash"&gt;
+      &lt;limit type="integer"&gt;20&lt;/limit&gt;
+      &lt;next type="null"/&gt;
+      &lt;offset type="integer"&gt;0&lt;/offset&gt;
+      &lt;previous type="null"/&gt;
+      &lt;total_count type="integer"&gt;2&lt;/total_count&gt;
+   &lt;/meta&gt;
+   &lt;objects type="list"&gt;
+      &lt;object&gt;
+         &lt;E_mail&gt;satya.arjunan@riken.jp&lt;/E_mail&gt;
+         &lt;PMID type="integer"&gt;20012222&lt;/PMID&gt;
+         &lt;URL type="null"/&gt;
+         &lt;address&gt;6-2-3 Furuedai, Suita, Osaka 565-0874, Japan&lt;/address&gt;
+         &lt;basedon&gt;Simulation&lt;/basedon&gt;
+         &lt;citation type="null"/&gt;
+         &lt;contributors&gt;Arjunan, S. N. V. and Tomita, M.&lt;/contributors&gt;
+         &lt;datatype&gt;single molecule dynamics&lt;/datatype&gt;
+         &lt;dblink&gt;http://www.ncbi.nlm.nih.gov/pubmed/20012222&lt;/dblink&gt;
+         &lt;department&gt;Quantitative Biology Center&lt;/department&gt;
+         &lt;description&gt;
+            quantitative single molecule dynamics of Min proteins (MinEE, MinDEE, MinDEED, and MinD) in E. coli wild-type
+         &lt;/description&gt;
+         &lt;laboratory&gt;Laboratory for Biochemical Simulation&lt;/laboratory&gt;
+         &lt;license&gt;CC BY-NC-SA&lt;/license&gt;
+         &lt;localid&gt;Eco_MinE_AS&lt;/localid&gt;
+         &lt;method_summary&gt;
+            See details in Arjunan et al. (2010) Syst Synth Biol 4, 35-53.
+         &lt;/method_summary&gt;
+         &lt;name&gt;Satya Nanda Vel Arjunan&lt;/name&gt;
+         &lt;organism&gt;E. coli&lt;/organism&gt;
+         &lt;organization&gt;RIKEN&lt;/organization&gt;
+         &lt;phone type="null"/&gt;
+         &lt;title&gt;
+            BDML file for quantitative information about single molecule dynamics of E. coli wild-type
+         &lt;/title&gt;
+      &lt;/object&gt;
+      &lt;object&gt;
+         &lt;E_mail&gt;satya.arjunan@riken.jp&lt;/E_mail&gt;
+         &lt;PMID type="integer"&gt;20012222&lt;/PMID&gt;
+         &lt;URL type="null"/&gt;
+         &lt;address&gt;6-2-3 Furuedai, Suita, Osaka 565-0874, Japan&lt;/address&gt;
+         &lt;basedon&gt;Simulation&lt;/basedon&gt;
+         &lt;citation type="null"/&gt;
+         &lt;contributors&gt;Arjunan, S. N. V. and Tomita, M.&lt;/contributors&gt;
+         &lt;datatype&gt;single molecule dynamics&lt;/datatype&gt;
+         &lt;dblink&gt;http://www.ncbi.nlm.nih.gov/pubmed/20012222&lt;/dblink&gt;
+         &lt;department&gt;Quantitative Biology Center&lt;/department&gt;
+         &lt;description&gt;
+            quantitative single molecule dynamics of Min proteins (MinEE, MinDEE, MinDEED, and MinD) in E. coli wild-type
+         &lt;/description&gt;
+         &lt;laboratory&gt;Laboratory for Biochemical Simulation&lt;/laboratory&gt;
+         &lt;license&gt;CC BY-NC-SA&lt;/license&gt;
+         &lt;localid&gt;Eco_MinE_AS&lt;/localid&gt;
+         &lt;method_summary&gt;
+            See details in Arjunan et al. (2010) Syst Synth Biol 4, 35-53.
+         &lt;/method_summary&gt;
+         &lt;name&gt;Satya Nanda Vel Arjunan&lt;/name&gt;
+         &lt;organism&gt;E. coli&lt;/organism&gt;
+         &lt;organization&gt;RIKEN&lt;/organization&gt;
+         &lt;phone type="null"/&gt;
+         &lt;title&gt;
+            BDML file for quantitative information about single molecule dynamics of E. coli wild-type
+         &lt;/title&gt;
+      &lt;/object&gt;
+   &lt;/objects&gt;
+&lt;/response&gt;
+</font>
+</pre></li></ul></li></ul></dd></dl>
+<h2 id="scaleAPI">scale API</h2>
+<dl class="main"><dt>Description</dt><dd>
+Scale and unit of coordinates and time. <strong> <em>Only support BDML v0.15</em> </strong>
+</dd></dl>
+<table class="wiki">
+<tr><th> <strong>Fields</strong>      </th><th> <strong>Description</strong> </th><th> <strong>Usage example</strong> </th><th> <strong>Usage comment</strong> 
+</th></tr><tr><td style="text-align: left">bdml          </td><td> retrieve fields of bdml API including the unique BDML UUID identity number of the BDML data stored in SSBD. It uses "<tt>bdml__</tt>" as prefix for bdml API; Also see bdml API </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/scale/?format=xml;bdml__bdml_ID__icontains=705c</tt> </td><td style="text-align: left">To retrieve Scale data from SSBD for bdmlUUID containing the phrase "705c" 
+</td></tr><tr><td style="text-align: left">tUnit     </td><td> Measurement unit of time. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/scale/?format=xml;tUnit=minute</tt> </td><td>To retrieve Scale data from SSBD for tUnit that is "minute";
+</td></tr><tr><td style="text-align: left">tScale       </td><td> Time scale. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">xScale    </td><td>Scale in x dimension.</td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">yScale     </td><td> Scale in y dimension. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">zScale     </td><td> Scale in z dimension. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">xyzUnit     </td><td> Measurement unit of x, y and z dimensions. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/scale/?format=xml;xyzUnit=meter</tt> </td><td> To retrieve Scale data from SSBD for xyzUnit that is "meter" 
+</td></tr></table>
+<dl class="main"><dt><strong>Scale Schema</strong></dt><dd>
+<a href="http://ssbd.qbic.riken.jp/SSBD/api/v1/scale/schema/?format=xml"><span class="icon">​</span>http://ssbd.qbic.riken.jp/SSBD/api/v1/scale/schema/?format=xml</a>
+   
+</dd></dl>
+<h2 id="summaryAPI">summary API</h2>
+<dl class="main"><dt>Description</dt><dd>
+Summary of the data described in the BDML file which is stored in SSBD. <strong> <em>Depreciated; Only supports BDML v0.15;</em> Use data api instead </strong>
+</dd></dl>
+<table class="wiki">
+<tr><th> <strong>Fields</strong>      </th><th> <strong>Description</strong> </th><th> <strong>Usage example</strong> </th><th> <strong>Usage comment</strong> 
+</th></tr><tr><td style="text-align: left">bdml          </td><td> retrieve fields of bdml API including the unique BDML UUID identity number of the BDML data stored in SSBD. It uses "<tt>bdml__</tt>" as prefix for bdml API; Also see bdml API </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/summary/?format=xml;bdml__bdml_ID__icontains=705c</tt> </td><td style="text-align: left">To retrieve summary data from SSBD for bdmlUUID containing the phrase "705c" 
+</td></tr><tr><td style="text-align: left">description      </td><td> Detailed information about the data described in the BDML file. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/summary/?format=xml;description__icontains=simulation</tt> </td><td>To retrieve summary data from SSBD for  description containing the word "simulation"
+</td></tr><tr><td style="text-align: left">datatype       </td><td> Describes specific type of data that was represented in the BDML data </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/summary/?format=xml;;datatype__contains=dynamics</tt> </td><td> To retrieve summary data from SSBD for datatype that contains the phrase "dynamics" 
+</td></tr><tr><td style="text-align: left">identifier     </td><td> Internal or local identifier used to identify the BDML data. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/summary/?format=xml;identifier__contains=wt</tt> </td><td> To retrieve summary data from SSBD for identifier that contains the phrase "wt"  
+</td></tr><tr><td style="text-align: left">organism     </td><td> Name of a targeted organism being described. Name is based on the NCBI taxonomy definition. </td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/summary/?format=xml;organism__contains=elegans</tt> </td><td style="text-align: left">To retrieve summary data from SSBD for organism that contains the phrase  "elegans" 
+</td></tr><tr><td style="text-align: left">contributors     </td><td>Names of contributors who produce/collect the data.</td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/summary/?format=xml;contributors__icontains=keller</tt> </td><td style="text-align: left">To retrieve summary data from SSBD for contributors that contains the name  "keller or Keller or KELLER"; icontains mean that it is case insensitive 
+</td></tr><tr><td style="text-align: left">basedon     </td><td>Speficify whether the data was gathered from an in vivo measurement or from a computer simulation.</td><td> <tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/summary/?format=xml;basedon__icontains=measurement</tt> </td><td> To retrieve summary data from SSBD for basedon that contains the name  "measurement or Measurement"; icontains mean that it is case insensitive 
+</td></tr><tr><td style="text-align: left">PMID     </td><td> <a href="http://www.ncbi.nlm.nih.gov/pubmed" class="exlink" target="_blank">PubMed</a> ID of the original published paper. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">citation     </td><td> Detailed information about the original published paper. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr><tr><td style="text-align: left">dblink     </td><td> A URL link to the original database. </td><td> NA </td><td> cannot be searched; retrieval only 
+</td></tr></table>
+<dl class="main"><dt><strong>Summary Schema</strong></dt><dd>
+<ul><li>  <a href="http://ssbd.qbic.riken.jp/SSBD/api/v1/summary/schema/?format=xml"><span class="icon">​</span>http://ssbd.qbic.riken.jp/SSBD/api/v1/summary/schema/?format=xml</a>
+</li></ul></dd></dl>
+<dl class="main"><dt><strong>Example of response</strong></dt><dd>
+<ul>
+<li>Trying to retrieve summary data from SSBD for organism that contains the word "mus" and datatype which contains the phrase "pos"</li>
+<li>output format is in XML format
+<ul><li><tt>http://ssbd.qbic.riken.jp/SSBD/api/v1/summary/?format=xml;organism__icontains=mus;datatype__icontains=pos</tt>
+<pre class="layout2">
+<font size=3>
+&lt;response&gt;
+   &lt;meta type="hash"&gt;
+      &lt;limit type="integer"&gt;20&lt;/limit&gt;
+      &lt;next type="null"/&gt;
+      &lt;offset type="integer"&gt;0&lt;/offset&gt;
+      &lt;previous type="null"/&gt;
+      &lt;total_count type="integer"&gt;1&lt;/total_count&gt;
+   &lt;/meta&gt;
+   &lt;objects type="list"&gt;
+      &lt;object&gt;
+         &lt;PMID type="integer"&gt;22590505&lt;/PMID&gt;
+         &lt;basedon&gt;Measurement&lt;/basedon&gt;
+         &lt;bdml&gt;
+            &lt;bdml_ID&gt;745645af-8d54-4320-9027-a7520ca9c17f&lt;/bdml_ID&gt;
+            &lt;id type="integer"&gt;300&lt;/id&gt;
+            &lt;title&gt;
+               BDML file for quantitative information about nuclei centroids of mouse embryonic cells
+            &lt;/title&gt;
+         &lt;/bdml&gt;
+         &lt;citation&gt;
+            Bashar, M.K., Komatsu, K., Fujimori, T., Kobayashi, T.J. (2012) Automatic extraction of nuclei centroids of mouse embryonic cells from fluorescence microscopy images. PLoS One 7: e35550.
+         &lt;/citation&gt;
+         &lt;contributors&gt;
+            Bashar M.K., Komatsu, K., Fujimori, T., Kobayashi, T.J.
+         &lt;/contributors&gt;
+         &lt;datatype&gt;nuclear positions&lt;/datatype&gt;
+         &lt;dblink type="null"/&gt;
+         &lt;description&gt;
+            quantitative information about nuclei centroids of mouse embryonic cells
+         &lt;/description&gt;
+         &lt;identifier&gt;088044_L1&lt;/identifier&gt;
+         &lt;organism&gt;Mus musculus&lt;/organism&gt;
+      &lt;/object&gt;
+   &lt;/objects&gt;
+&lt;/response&gt;
+</font>
+</pre></li></ul></li></ul>
+</dd></dl>
+</div >
+</div>
+
+</div>
+{% endblock %}

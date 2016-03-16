@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}User Login{% endblock %}
+{% block search %}{% endblock %}
+
+{% block content %}
+<div class="main">
+
+<h2>Sign in to SSBD</h2>
+
+<div class="text">
+  <form method="post" action="/login_exe/">{% csrf_token %}
+  <p>
+  User Name:<input type="text" name="username" />
+  Password: <input type="password" name="password" />
+  </p>
+  <input id="btn" type="submit" value="login" />
+ </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}OmicsBDML Manuals{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li class="active"><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+		<div class="main">
+			<h2>Omics Biological Dynamics Markup Language</h2>
+			<div class="text">
+				<h3>What is OmicsBDML?</h3>
+				<p>OmicsBDML is an open format for representing quantitative omics data, such as gene, protein, and metabolite. Version of OmicsBDML is coresponding to <a href="/bdml/">BDML schema</a>.</p><br />
+				
+				<h3>OmicsBDML schema</h3>
+				<p><a href="http://ssbd.qbic.riken.jp/omicsbdml/omicsbdml0.18.xsd">OmicsBDML version 0.18 schema file (the latest version)</a>
+				</p><br />
+			</div>				
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Publications{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li class="active"><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+<div class="main">
+
+<h2>SSBD-RDF</h2>
+
+<div class="text">
+
+<h3>What is SSBD-RDF?</h3>
+
+<p>Resource Description Framework (RDF) is data model for exchanging data on the Internet. It is part of the family of World Wide Web Consortium (W3C) specifications (<a href="http://www.w3.org/TR/rdf11-concepts/" class="exlink" target="_blank">http://www.w3.org/TR/rdf11-concepts/</a>). To establish a connection between SSBD and other biological databases, SSBD provides RDF formatted meta-information, which includes quantitative data and their corresponding microscopy images, at <a href="http://metadb.riken.jp/metadb/db/SSBD" class="exlink" target="_blank">RIKEN Meta Database</a>. The SSBD-RDF data currently consists of 18,319 triples (data entities of subject-predicate-object form; ver. 20141003 release 20150911). Table 1 is a list of ontologies/subdomains used to define the specific knowledge in the SSBD-RDF data.</p>
+
+<p>Table 1. The prefixes and corresponding namespaces used in the SSBD-RDF.</p>
+<table class="layout2">
+<tr><th>Prefix</th><th>Namespace</th><th>Ontologies/subdomains</th></tr>
+<tr><td>rdfs</td><td>http://www.w3.org/2000/01/rdf-schema#</td><td>RDF Schema</td></tr>
+<tr><td>rdf</td><td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td><td>RDF</td></tr>
+<tr><td>xsd</td><td>http://www.w3.org/2001/XMLSchema#</td><td>XML Schema</td></tr>
+<tr><td>owl</td><td>http://www.w3.org/2002/07/owl#</td><td>OWL</td></tr>
+<tr><td>dcterms</td><td>http://purl.org/dc/terms/</td><td>DCMI Terms</td></tr>
+<tr><td>foaf</td><td>http://xmlns.com/foaf/0.1</td><td>FOAF</td></tr>
+<tr><td>vcard</td><td>http://www.w3.org/2006/vcard/ns#</td><td>VCARD</td></tr>
+<tr><td>obo</td><td>http://purl.obolibrary.org/obo/</td><td>RO, GO, NCBITaxon</td></tr>
+<tr><td>sio</td><td>http://semanticscience.org/resource/</td><td>SIO</td></tr>
+<tr><td>ma-ont</td><td>http://www.w3.org/ns/ma-ont#</td><td>Media Resources</td></tr>
+<tr><td>bqbiol</td><td>http://biomodels.net/biology-qualifiers/</td><td>BioModels schema</td></tr>
+<tr><td>ome</td><td>https://www.openmicroscopy.org/Schemas/Documentation/Generated/OME-2015-01/ome_xsd.html#</td><td>OME schema</td></tr>
+<tr><td>ssbd</td><td>http://metadb.riken.jp/db/SSBD/</td><td>SSBD-RDF</td></tr>
+</table>
+
+<h3>How to use the SSBD-RDF data?</h3>
+
+<p>SPARQL query language (SPARQL; <a href="http://www.w3.org/TR/rdf-sparql-query/" class="exlink" target="_blank">http://www.w3.org/TR/rdf-sparql-query/</a>) can be used through the <a href="http://metadb.riken.jp/metadb/db/SSBD" class="exlink" target="_blank">RIKEN Meta Database</a> website to query the SSBD-RDF data. Here you can find some examples of the SPARQL queries.</p>
+
+<h3>SPARQL query #1: to find quantitative data and the dataset of microscopy images about <I>M. musculus</I></h3>
+
+<PRE>
+PREFIX ssbd: &lt;http://metadb.riken.jp/db/SSBD/&gt;
+PREFIX obo:  &lt;http://purl.obolibrary.org/obo/&gt;
+SELECT ?s ?desc
+FROM<http://metadb.riken.jp/db/SSBD>
+WHERE
+{
+?s obo:RO_0002162 obo:NCBITaxon_10090 . # M. musculus
+?s ssbd:description ?desc .
+}
+</PRE>
+
+<h3>SPARQL query #2: to find quantitative data of nuclear division dynamics obtained from experimental measurements</h3>
+
+<PRE>
+PREFIX ssbd: &lt;http://metadb.riken.jp/db/SSBD/&gt;
+PREFIX obo:  &lt;http://purl.obolibrary.org/obo/&gt;
+PREFIX bqbiol: &lt;http://biomodels.net/biology-qualifiers/&gt;
+SELECT ?s ?desc
+FROM<http://metadb.riken.jp/db/SSBD>
+WHERE
+{
+?s bqbiol:isPartOf obo:GO_0005634 . # nucleus
+?s ssbd:basedOn ?text FILTER regex(?text, "measurement", "i") .
+?s ssbd:description ?desc .
+}
+</PRE>
+
+<h3>SPARQL query #3: to find quantitative data of pronuclear migration dynamics in <I>C. elegans</I> obtained from computer simulations</h3>
+
+<PRE>
+PREFIX ssbd: &lt;http://metadb.riken.jp/db/SSBD/&gt;
+PREFIX obo:  &lt;http://purl.obolibrary.org/obo/&gt;
+PREFIX bqbiol: &lt;http://biomodels.net/biology-qualifiers/&gt;
+SELECT ?s ?desc
+FROM<http://metadb.riken.jp/db/SSBD>
+WHERE
+{
+?s obo:RO_0002162 obo:NCBITaxon_6239 . # C. elegans
+?s bqbiol:isVersionOf obo:GO_0035046 . # pronuclear migration
+?s ssbd:basedOn ?text FILTER regex(?text, "simulation", "i") .
+?s ssbd:description ?desc .
+}
+</PRE>
+
+</div>
+
+</div>
+{% endblock %}

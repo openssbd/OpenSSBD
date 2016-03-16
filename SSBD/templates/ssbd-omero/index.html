@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}SSBD-OMERO.insight-ij{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li class="active"><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+  <div class="main">
+    <h2>SSBD-OEMRO.insight-ij</h2>
+    
+    <div class="text">
+      <h3>About SSBD-OMERO.insight-ij</h3>
+      SSBD-OMERO.insight-ij is a plugin for ImageJ software on Microsoft Windows platform. The ImageJ plugin enables reading and visualizing movies and images directly from SSBD. Movies and images are managed by OMERO.web within SSBD. This plugin requires user to input a server address and a public session ID in the on-screen login form. The public session ID is providing on the top of the login page. The server address is "<a href="http://ssbd1.qbic.riken.jp">http://ssbd1.qbic.riken.jp</a>". This plugin was created by modifying the original OMERO.insight-ij, which can be download from <a href="http://downloads.openmicroscopy.org/omero/5.0.4" class="exlink" target="_blank">OMERO 5.0.4 plugin downloads</a>.
+
+      <h3>Download pages</h3>
+      <ul>
+	<li><a href="http://ssbd.qbic.riken.jp/SSBD-OMERO.insight/zip/SSBD-OMERO.insight-ij-5.0.4-ice34.zip">SSBD-OMERO.insight-ij-5.0.4-ice34.zip</a></li>
+      </ul>
+    </div>
+  </div>
+  {% endblock %}

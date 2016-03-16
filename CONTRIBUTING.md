@@ -1,0 +1,2 @@
+* Please feel free to fork, enhance/modify OpenSSBD. We look forward to hearing from you and together we hope to share new ideas and collaborate in new projects using OpenSSBD.
+* If you find any bugs, or have questions, please submit and open an issue under Issues.

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}BDML Manuals{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li class="active"><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+  <div class="main">
+    <h2>BDML4DViewer</h2>
+    <div class="text">
+      <h3>About BDML4DViewer</h3>
+      BDML4DViewer is a pulugin of ImageJ software. The plugin enables reading and visualizing content of BDML files.
+      
+      <h3>Download pages</h3>
+      <ul>
+	<li><a href="./bdml4dviewer015.html">BDML4DViewer for BDML version 0.15</a></li>
+	<li><a href="./bdml4dviewer018.html">BDML4DViewer for BDML version 0.18</a></li>
+	<li><a href="./bdml4dviewer020.html">BDML4DViewer for BDML version 0.20</a></li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

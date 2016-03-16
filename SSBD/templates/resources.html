@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Resources{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li class="active">Resources</li>
+    <li><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+  </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+<div class="main">
+
+<h2>Resources</h2>
+
+<div class="text">
+
+<table class="layout2">
+<tr><th>Organism</th><th>Type</th><th>Basedon</th><th>Paper</th><th>Number of BDML-files</th><th>Number of images stored in SSBD</th><th>Released date</td><th>Update date</td></tr>
+<tr><td> </td><td> </td><td> </td><td> </td><td class="num"> </td><td class="num"> </td><td class="num"> </td><td class="num"> </td></tr>
+</table>
+</div>
+
+<h2>Related papers of resources</h2>
+
+<div class="text">
+<ul>
+<li> </li>
+</ul>
+</div>
+{% endblock %}

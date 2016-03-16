@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}phenochar2.0{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li class="active"><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+		<div class="main">
+			<h2>phenochar2.0 (ver. 2)</h2>
+			
+			<div class="text">
+				<h3>phenochar2.0</h3>
+				phenochar2.0 is a software package for extracting phenotypic characters from BDML version 0.18 files.
+				
+				<h3>Author</h3>
+				SSBD Group (ssbd at riken.jp)
+				<h3>History</h3>
+				2014/03/27: Ver. 1 released<br />
+				2015/11/27: Ver. 2 released (Counting function added)<br />
+				<h3>Source</h3>
+				<a href="http://ssbd.qbic.riken.jp/phenochar/src/phenochar2.0v2.zip">phenochar2.0v2.zip</a>
+				<h3>Installation</h3>
+				<ol>
+				<li>Download <a href="http://ssbd.qbic.riken.jp/phenochar/src/phenochar2.0v2.zip">phenochar2.0v2.zip</a> and unzip the file.</li>
+				<li>Install <a href="http://www.codesynthesis.com/products/xsd/" class="exlink">codesynthesis XSD</a>.</li>
+				<li>Set environmental variable XSD_ROOT to root directory of the codesynthesis XSD.</li>
+				<li>make the files.</li>
+				</ol>
+				<h3>Description</h3>
+				These programs extract phenotypic characters from the content described in BDML version 0.18 file.
+				<h3>Function</h3>
+				<ul>
+				<li><i>angle</i> calculates angle among three components.</li>
+				<li><i>centroid</i> calculates centroid of components. </li>
+				<li><i>distance</i> calculates distance between two components.</li>
+				<li><i>move</i> calculates migration length.</li>
+				<li><i>timelength</i> calculates existing time of a component.</li>
+				<li><i>volume</i> calculates volume of components.</li>
+				<li><i>count</i> calculates the number of components.</li>
+				</ul>
+				<br />
+				<a href="./index.html">Back to phenochar Home</a>
+            </div>
+		</div>
+	</div>
+{% endblock %}

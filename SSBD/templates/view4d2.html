@@ -1,0 +1,635 @@
+{% extends "base.html" %}
+{% load static %}
+{% block script %}
+ <script type=text/javascript src="{% static 'WEB/js/jquery-1.10.2.min.js' %}"></script>
+ <script type=text/javascript src="{% static 'WEB/js/three.min.js' %}"></script>
+ <script type=text/javascript src="{% static 'WEB/js/Detector.js' %}"></script>
+ <script type=text/javascript src="{% static 'WEB/js/TrackballControls.js' %}"></script>
+ <script type=text/javascript src="{% static 'WEB/js/RequestAnimationFrame.js' %}"></script>
+ <script type=text/javascript src="{% static 'WEB/js/jquery-ui-1.10.4.min.js' %}"></script>
+ <script type=text/javascript src="{% static 'WEB/js/jquery.ui.touch-punch.min.js' %}"></script>
+<!script type=text/javascript src="{% static 'WEB/js/glMatrix-min.js' %}"><!/script>
+<script type=text/javascript src="{% static 'WEB/js/jcanvas.min.js' %}"></script>
+ <script type=text/javascript src="{% static 'WEB/js/require.js' %}"></script>
+ <script type=text/javascript src="{% static 'WEB/js/dat.gui.min.js' %}"></script>
+ <link rel="stylesheet" href="{% static 'WEB/css/style.css' %}" type="text/css" />
+ <link rel="stylesheet" href="{% static 'WEB/css/jquery-ui-1.10.4.css' %}" type="text/css" />
+
+ <script>
+    var bdml_id = {{  bdml_id  }};
+    var time_t = {{  t }};
+    var base_url = "/SSBD/";
+    var ssbd_url;
+    var scale_url = base_url+"api/v1/scale/"+bdml_id+"/";
+
+    ssbd_url = base_url+"BDML/vertices/"+bdml_id+"/t/"+time_t+"/etype/";
+//    ssbd_url = base_url+"BDML/univertices/"+bdml_id+"/t/"+time_t+"/etype/";
+//    ssbd_url = base_url+"BDML/univerticestp/"+bdml_id+"/tp/"+time_t+"/etype/";
+    console.log(ssbd_url);
+    var param = "?callback=?"; // for allowing cross domain query
+
+    var camera, controls, scene, renderer;
+    var geometry;
+    var line=[];
+    var sphere=[];
+    var points;
+    var basic_material;
+    var lambert_material;
+    var mouseX = 300;
+    var mouseY = 300;
+    var line_error = 0;
+    var point_error = 0;
+    var sphere_error = 0;
+    var j; // index for line, sphere
+    var camx = {{ cam_x }};
+    var camy = {{ cam_y }};
+    var camz = {{ cam_z }};
+    var avgx = {{ avgx }};
+    var avgy = {{ avgy }};
+    var avgz = {{ avgz }};
+    var xmax = {{ xmax }};
+    var ymax = {{ ymax }};
+    var zmax = {{ zmax }};
+    var xmin = {{ xmin }};
+    var ymin = {{ ymin }};
+    var zmin = {{ zmin }};
+    var xscale = {{ xscale }};
+    var yscale = {{ yscale }};
+    var zscale = {{ zscale }};
+    var scaleup = {{ scaleup }};
+    var tscale = {{ tscale }};
+    var tunit = '{{ tunit }}';
+    if (tunit == 'second') {
+        tunit = 'sec';
+    } else if  (tunit == 'minute') {
+        tunit = 'min';
+    } else if (tunit == 'microsecond') {
+        tunit = '\u00B5 sec';
+    }
+    console.log('tunit='+tunit);
+
+    var colourvalue = 0xffffff;
+    var materialvalue = "Lambert";
+    var lockflag = false;
+
+
+    function SSBDviewStart(){
+       //grab our container div
+       var container = document.getElementById("container");
+       if ( ! Detector.webgl ) {
+          var warning = Detector.getWebGLErrorMessage();
+          alert("Cannot detect WebGL, please enable WebGL or use another browser");
+          document.getElementById('container').appendChild(warning);
+
+       }
+       // create a Three.js renderer and add it to container div
+       renderer = new THREE.WebGLRenderer();
+       renderer.setSize(container.offsetWidth, container.offsetHeight)
+       container.appendChild(renderer.domElement);
+
+       // create a new Three.js scene
+       scene = new THREE.Scene();
+
+
+       //creat a camera and add it to the scene
+       camera = new THREE.PerspectiveCamera(45, container.offsetWidth/container.offsetHeight, 1, 4000);
+
+
+       controls = new THREE.TrackballControls(camera, renderer.domElement);
+       controls.rotateSpeed = 0.8;
+       controls.zoomSpeed = 1.2;
+       controls.panSpeed = 0.8;
+       controls.noZoom = false;
+       controls.noPan = false;
+       controls.staticMoving = false;
+       controls.dynamicDampingFactor = 0.5;
+       controls.CAMERA_RADIUS =20;
+
+       if( camz == 0 ){
+           camz = 100;
+       }
+//       controls.target.set(camx,cam, camz);
+       var midx = ((xmax-xmin)/2);
+       var midy = ((ymax-ymin)/2);
+       var midz = ((zmax-zmin)/2);
+       controls.target.set(midx*xscale*scaleup,midy*yscale*scaleup,midz*zscale*scaleup);
+       controls.keys = [ 65, 83, 68 ]; // [ rotateKey, zoomKey, panKey ]
+       controls.addEventListener( 'change', render );
+
+       if ({{ zscale }} == 0){
+            zscale = 1;
+       }
+
+// LIGHT
+	   var light = new THREE.PointLight(0xffffff);
+	   light.position.set(camx, camy, camz*10);
+       scene.add(light);
+
+       // need to add an ambient light
+	   //  for ambient colors to be visible
+	   // make the ambient light darker so that
+	   //  it doesn't overwhelm (like emmisive light)
+	   var light2 = new THREE.AmbientLight(0x333333);
+	   light2.position.set( light.position );
+	   scene.add(light2);
+       resetCamera();
+       scene.add(camera);
+       makeGrid();
+       makeCoordinateArrows();
+
+       lockflag = true;
+       line_error = SSBDviewDrawlines();
+       point_error = SSBDviewDrawpoints();
+       sphere_error = SSBDviewDrawspheres();
+       animate();
+
+    function resetCamera(){
+    //    camera.position.set (camx*2,camy*2,camz*2);
+        camera.position.set (camx,camy,camz*7);
+        controls.target.set(camx, camy, camz);
+    }
+
+/** INNACCESSIBLE OBJECTS **/
+
+	///////////////////
+	//   GUI SETUP   //
+	///////////////////
+
+	var gui = new dat.GUI({ autoPlace: true });
+    document.getElementById('gui-container').appendChild(gui.domElement);
+	var parameters =
+	{
+		resetCam:  function() { resetCamera(); },
+        rotatevisible : false,
+        gridvisible : false,
+        axisvisible : true,
+        colour : "#ffffff",
+        material: "Lambert",
+        objectvisible : true,
+//        scalefactor: scaleup,
+	};
+
+	// GUI -- parameters
+	gui.add( parameters, 'resetCam' ).name("Reset Camera");
+    var gridVisibility = gui.add( parameters, 'gridvisible').name('Toggle Grid').listen();
+    var axisVisibility = gui.add( parameters, 'axisvisible').name('Toggle Axis').listen();
+    var objectVisibility = gui.add( parameters, 'objectvisible').name('Toggle Objects').listen();
+    var objectColour = gui.addColor( parameters, 'colour').name('Colour').listen();
+//    var rotationVisibility = gui.add( parameters, 'rotatevisible').name('Toggle Rotate').listen();
+//    var objectMaterial = gui.add( parameters, 'material', [ "Lambert", "Wireframe" ] ).name('Material Type').listen();
+
+//    var timeMin = gui.add( parameters, 'timept_min').min({{ min_t }}).max({{ max_t}}).step(1).name('Time Pt from').listen();
+//    var timeMax = gui.add( parameters, 'timept_max').min({{ min_t }}).max({{ max_t}}).step(1).name('Time Pt to').listen();
+
+
+
+    gridVisibility.onChange(function(gvalue){
+        updateGrid();
+    });
+
+    axisVisibility.onChange(function(avalue){
+        updateAxis();
+    });
+
+    objectVisibility.onChange(function(avalue){
+        updateObject();
+    });
+
+
+    objectColour.onChange(function(cvalue){
+            updateObjectColour();
+            colourvalue = cvalue;
+    });
+    
+/*
+    objectMaterial.onChange(function(mvalue){
+        updateSphereObject();
+        materialvalue = mvalue;
+    });
+
+    rotationVisibility.onChange(function(gvalue){
+            updateRotate();
+    });
+*/
+    
+    function removeObject(){
+      if ( line  != [] ){
+         line.forEach(function(lvalue){
+//                console.log(lvalue);
+                scene.remove(lvalue);
+         });
+      } // end if line
+      if ( sphere !== []){
+          for(i=0; i<sphere.length; i=i+1) {
+//            console.log("sphere.length="+sphere.length);
+//            console.log("i="+i);
+            scene.remove(sphere[i]);
+          }
+      }
+      if ( points ){
+            scene.remove(points);
+      }
+      render();
+    } // end removeObject
+
+    function updateObject(){
+      if ( line  != [] ){
+         line.forEach(function(lvalue){
+                console.log(lvalue);
+                lvalue.visible = parameters.objectvisible;
+         });
+      } // end if line
+      if ( sphere !== []){
+          for(i=0; i<sphere.length; i=i+1) {
+            console.log("sphere.length="+sphere.length);
+            console.log("i="+i);
+            sphere[i].visible = parameters.objectvisible;
+          }
+      }
+      if ( points ){
+            points.visible = parameters.objectvisible;
+      }
+            render();
+    } // end updateObject
+
+    function updateObjectColour(){
+      if ( line  != [] ){
+          line.forEach(function(lvalue){
+               console.log(lvalue);
+               lvalue.material.color.setHex( parameters.colour.replace("#", "0x"));
+           });
+      }
+
+      if ( sphere !== []){
+          for(i=0; i<sphere.length; i=i+1) {
+            console.log("sphere.length="+sphere.length);
+            console.log("i="+i);
+            sphere[i].material.color.setHex( parameters.colour.replace("#", "0x"));
+          }
+      }
+      if ( points ){
+            points.material.color.setHex( parameters.colour.replace("#", "0x"));
+      }
+      render();
+    }
+
+    function updateSphereObject(){
+           var newMaterial;
+           var matvalue = parameters.material;
+           var matcolour = parameters.colour.replace("#","0x");
+           console.log(matcolour)
+
+        if ( sphere !== []){
+           if (matvalue == "Wireframe"){
+               for(i=0; i<sphere.length; i=i+1) {
+                   sphere[i].material = basic_material;
+                   sphere[i].material.color.setHex( matcolour );
+                   sphere[i].material.needsUpdate = true;
+               }
+           } // end if Basic
+	       else if (matvalue == "Lambert"){
+                   for(i=0; i<sphere.length; i=i+1) {
+                      sphere[i].material = lambert_material;
+                      sphere[i].material.color.setHex( matcolour );
+                      sphere[i].material.needsUpdate = true;
+                   }
+           } // end if lambert
+//		        newMaterial = new THREE.MeshBasicMaterial( { wireframe: true } );
+//                sphere.material = basic_material;
+           render();
+        } // end if sphere
+    } // end updateSphereObject
+
+var cam_rotation = false;
+function updateRotate(){
+    cam_rotation = parameters.rotatevisible;
+    render();
+}
+
+function rotation_cam(){
+        var uscale;
+
+        var timer = Date.now() * 0.0004;
+//      camera.position.x = 1000*Math.cos(timer);
+        var r = Math.sqrt(Math.pow((camx-avgx),2)+Math.pow((camy-avgy), 2));
+        if(xscale < zscale){
+            uscale = xscale;
+        }
+        else {
+             uscale = zscale;
+        }
+        camera.position.x = (camx+r*Math.cos(timer)*scaleup*3);
+//        camera.position.x = (controls.position.x+r*Math.cos(timer)*uscale*scaleup*3);
+//      camera.position.y += (- mouseY - camera.position.y)*0.05;
+        camera.position.z = (camz+r*Math.sin(timer)*scaleup*3);
+//        camera.position.z = (controls.position.z+r*Math.sin(timer)*uscale*scaleup*3);
+        camera.lookAt(controls.target);
+} // end rotation_cam
+
+/* GRID */
+var grid;
+function makeGrid() {
+        var gridGeometry = new THREE.Geometry();
+        var i;
+        var gridminx = (xmin-xmargin)*xscale*scaleup;
+        var gridmaxx = (xmax+xmargin)*xscale*scaleup;
+        var gridminy = (ymin-ymargin)*yscale*scaleup;
+        var gridmaxy = (ymax+ymargin)*yscale*scaleup;
+        var int = ( xmax - xmin )/10;
+        var xmargin = xmax-xmin;
+        var ymargin = ymax-ymin;
+        var gridminx = (xmin-xmargin)*2;
+        var gridmaxx = (xmax+xmargin)*2;
+        var gridminy = (ymin-ymargin)*2;
+        var gridmaxy = (ymax+ymargin)*2;
+        console.log("gridminx="+gridminx+" gridminy="+gridminy+" int="+int);
+        for(i=gridminx; i<gridmaxx; i=i+int) {
+            gridGeometry.vertices.push( new THREE.Vector3( i, gridminy, 0 ) );
+            gridGeometry.vertices.push( new THREE.Vector3( i, gridmaxy,  0 ) );
+        }
+        for(i=gridminy; i<gridmaxy; i=i+int) {
+            gridGeometry.vertices.push( new THREE.Vector3( gridminx, i, 0 ) );
+            gridGeometry.vertices.push( new THREE.Vector3( gridmaxx, i, 0 ) );
+        }
+        var gridMaterial = new THREE.LineBasicMaterial( { color: 0xBBBBBB } );
+        grid = new THREE.Line(gridGeometry, gridMaterial, THREE.LinePieces);
+        grid.visible = false;
+        scene.add( grid );
+        render();
+        return grid;
+}
+
+function updateGrid(){
+        grid.visible = parameters.gridvisible;
+        render();
+}
+
+/* COORDINATE ARROWS */
+    var coordinateArrows;
+
+    function makeCoordinateArrows() {
+        coordinateArrows = new THREE.Object3D();
+        var org = new THREE.Vector3( 0, 0, 0);
+
+        var dir = new THREE.Vector3( 0, 0, 1*xscale );
+        coordinateArrows.add( new THREE.ArrowHelper( dir, org, 8, 0x0000FF ) ); // Blue = z
+        dir = new THREE.Vector3( 0, 1*xscale, 0 );
+        coordinateArrows.add( new THREE.ArrowHelper( dir, org, 8, 0x00FF00 ) ); // Green = y
+        dir = new THREE.Vector3( 1*xscale, 0, 0 );
+        coordinateArrows.add( new THREE.ArrowHelper( dir, org, 8, 0xFF0000 ) ); // Red = x
+        scene.add( coordinateArrows );
+        render();
+        return coordinateArrows;
+    }
+
+    function updateAxis(){
+        coordinateArrows.traverse(function (child){
+        child.visible = parameters.axisvisible;
+        });
+        render();
+    }
+
+
+
+       function SSBDviewDrawlines(){
+           var material = new THREE.LineBasicMaterial( {color: colourvalue, opacity: 1, lineWidth:3})
+//           var material = new THREE.LineBasicMaterial( {color: 0xffffff, opacity: 1, lineWidth:3})
+           $.getJSON(ssbd_url+"line/"+param,  { format: "jsonp" }, function(data) {
+               var entityid = data.vertices[0];
+               geometry = new THREE.Geometry();
+               geometry.dynamic = true;
+               geometry.verticesNeedUpdate = true;
+               geometry.normalsNeedUpdate = true;
+               console.log("time_t="+time_t);
+               if(data.vertices !== "error"){
+               // data array is in the form [entity_id, coord_id,x,y,z,t ... ]
+                    j = 0; // line index
+                    for(var i= 0, len = data.vertices.length; i < len; i=i+6){
+                        // if it is the same line entity, keep ending vertices
+                        if (data.vertices[i] == entityid){
+                           geometry.vertices.push(new THREE.Vector3(
+                               (data.vertices[i+2])*xscale,
+                               (data.vertices[i+3])*yscale,
+                               data.vertices[i+4]*zscale));
+                        }
+                        else {
+                           // if it is a different entity, add the current vertices to a new line
+                           // and add to the scene; start a new line, update entityid
+                              line[j] = new THREE.Line(geometry, material);
+                              scene.add(line[j]);
+                              render();
+                              geometry = new THREE.Geometry();
+                              entityid = data.vertices[i];
+                              geometry.vertices.push(new THREE.Vector3(
+                                            (data.vertices[i+2])*xscale,
+                                            (data.vertices[i+3])*yscale,
+                                            data.vertices[i+4]*zscale));
+                        } // end else
+                        j=j+1;
+                    }; // end for loop
+                    // add the last line to the scene
+
+                    line[j] = new THREE.Line(geometry, material);
+                    scene.add(line[j]);
+                    render();
+                    lockflag = false;
+                    line_error = 0;
+               } //end if vertices length
+               else{
+                  line_error = 1;
+               }
+           } // function data
+           ); // getJSON ssdb_url
+           return line_error;
+       }; // end of SSBDviewDrawlines
+
+       function SSBDviewDrawpoints(){
+           var material = new THREE.ParticleBasicMaterial( {color: colourvalue, size:1*0.001})
+//           var material = new THREE.ParticleBasicMaterial( {color: 0xffffff, size:1*0.001})
+           $.getJSON(ssbd_url+"point/"+param,  { format: "jsonp" }, function(data) {
+               geometry = new THREE.Geometry();
+               if(data.vertices !== "error"){
+               // data array is in the form [entity_id, coord_id,x,y,z,t ... ]
+                    for(var i= 0, len = data.vertices.length; i < len; i=i+6){
+                           geometry.vertices.push(new THREE.Vector3(
+                               (data.vertices[i+2])*xscale,
+                               (data.vertices[i+3])*yscale,
+                               data.vertices[i+4]*zscale));
+                    }; // end for loop
+                    points = new THREE.ParticleSystem(geometry, material);
+                    scene.add(points);
+                    render();
+                    lockflag = false;
+                    point_error = 0;
+               } // end if
+               else{
+                   point_error = 1;
+               }
+           } // function data
+           ); // getJSON ssdb_url
+           return point_error;
+       }; // end of SSBDviewDrawpoints
+
+
+       function SSBDviewDrawspheres(){
+           var segments = 16, rings = 16;
+           sphere_material = materialvalue;
+           basic_material = new THREE.MeshBasicMaterial( {color: colourvalue, wireframe: true, transparent: true} );
+           lambert_material = new THREE.MeshLambertMaterial( {color: colourvalue, opacity: 1, shininess:30} );
+           pt_material = new THREE.ParticleBasicMaterial( {color: colourvalue, size:1})
+//           basic_material = new THREE.MeshBasicMaterial( {color: 0xffffff, wireframe: true, transparent: true} );
+//           lambert_material = new THREE.MeshLambertMaterial( {color: 0xffffff, opacity: 1, shininess:30} );
+//           pt_material = new THREE.ParticleBasicMaterial( {color: 0xffffff, size:1})
+           // Note: sphere needs to set to a complex material first or else it cannot switch materials
+           $.getJSON(ssbd_url+"sphere/"+param,  { format: "jsonp" }, function(data) {
+               if(data.vertices !== "error"){
+                 len = data.vertices.length;
+                 if (len > 5000*7){ // draw pts as spheres
+                     j=0; // index for sphere array
+                     geometry = new THREE.Geometry();
+                     for(var i= 0; i < len; i=i+7){
+                        geometry.vertices.push(new THREE.Vector3(
+                               (data.vertices[i+2])*xscale,
+                               (data.vertices[i+3])*yscale,
+                               data.vertices[i+4]*zscale));
+                     }; // end for loop
+                     points = new THREE.ParticleSystem(geometry, pt_material);
+                     scene.add(points);
+                     render();
+                 } // end len > 5000
+                 else{ // len < 5000; draw spheres
+                    if(len > 1500*7){ // if the number of spheres is larger than 5000, use simple wireframe spheres
+                           segment = 4;
+                           rings = 4;
+                           sphere_material = basic_material;
+                    } // end if len > 1500
+                    else{
+                           segments = 16;
+                           rings = 16;
+                           sphere_material = lambert_material;
+                    } // end else len < 1500
+               // data array is in the form [entity_id, coord_id,x,y,z,t ... ]
+                    j=0; // index for sphere array
+                    for(var i= 0; i < len; i=i+7){
+                      sphere[j] = new THREE.Mesh(new THREE.SphereGeometry(data.vertices[i+6]*scaleup, segments, rings), sphere_material);
+                       sphere[j].position.x =  data.vertices[i+2]*xscale;
+                       sphere[j].position.y =  data.vertices[i+3]*yscale;
+                       sphere[j].position.z =  data.vertices[i+4]*zscale;
+                       sphere[j].wireframe = 1;
+                       scene.add(sphere[j]);
+                       render();
+                       j=j+1;
+                    }; // end for loop
+                   render();
+                   lockflag = false;
+                   sphere_error = 0;
+                 } //end else len < 5000
+               } // end if
+               else{
+                   sphere_error = 1;
+               } // end else
+           } // function data
+           ); // getJSON ssdb_url
+           return sphere_error;
+       }; // end of SSBDviewDrawspheres
+
+    function render() {
+        renderer.render( scene, camera );
+    }
+
+    function animate(){
+        if (cam_rotation == true){
+            rotation_cam();
+        }
+        requestAnimationFrame(animate);
+        controls.update();
+        render();
+    }
+
+
+  $(function() {
+//    lockflag = false;
+    $( "#time-slider" ).slider({
+      range: "min",
+      min: {{  min_tp }},
+      max: {{ max_tp }},
+      value: time_t,
+      slide: function( event, ui ) { // slide the bar and change the value at #timepoint
+        $( "#timepoint" ).val( ui.value );
+        $( "#time" ).val( ui.value*tscale);
+      },
+      stop: function(event, ui){ // when the slider stop, display a new dataset using the stop value
+          console.log("lockflag="+lockflag);
+          if (lockflag == false){
+              lockflag = true;
+              console.log("lock it! lockflag="+lockflag);
+              time_t = ui.value;
+              ssbd_url = base_url+"BDML/vertices/"+bdml_id+"/t/"+time_t+"/etype/";
+              removeObject();
+              console.log("before SSBD calls line_error="+line_error+" point_error="+point_error+" sphere_error="+sphere_error);
+              line_error = SSBDviewDrawlines();
+              point_error = SSBDviewDrawpoints();
+              sphere_error = SSBDviewDrawspheres();
+          }// end if lockflag
+          $( "#timepoint" ).val( time_t);
+          $( "#time" ).val( time_t*tscale);
+          $( "#time-slider" ).slider( {value: time_t});
+      } // end stop: func
+    });
+    $( "#timepoint" ).val( $( "#time-slider" ).slider( "value") );
+    $( "#tunit" ).val( tunit );
+
+  }); //end of time-slider
+
+
+ }; // end of SSBDviewStart
+
+
+
+     </script>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+<body onLoad="SSBDviewStart();">
+<div class="left2">
+  <div id="gui-container" style="position: absolute; opacity:0.85;"></div>
+  <div id="container" style="width:600px; height:600px; background-color:#000000; "></div>
+  <p></p>
+  <div id="time-slider" class="ui-widget-content" style="width:600px; height:30;" > </div>
+  <p>
+  <br>
+  <label for="timepoint"><b>Time point:</b></label>
+     <input type="text" id="timepoint" style="border: 0; width:50px; font-weight: bold;" />
+  <label for="time"><b>Time  (<input type="text" id="tunit" style="border: 0; width:35px;" />):</b></label>
+         <input type="text" id="time" style="border: 0; width:50px; font-weight: bold;" />
+  </p>
+ </div>
+<div class="right2">
+<p></p>
+<div id="diccanvas" style"width:600px; height:600px; background-color:#000000; "></div>
+<table class="layout">
+<tr><td class="label">BDML ID:</td><td>{{ bdmlUUID }}</td></tr>
+<tr><td class="label">Title</td><td>{{ title }}</td></tr>
+<tr><td class="label">License</td><td>{{ license }} license</td></tr>
+<tr><td class="label">Description</td><td>{{ description }}</td></tr>
+<tr><td class="label">Organism:</td><td>{{ organism }}</td></tr>
+<tr><td class="label">Datatype</td><td>{{ datatype }}</td></tr>
+<tr><td class="label">Local ID</td><td>{{ localid }}</td></tr>
+<tr><td class="label">Basedon</td><td>{{ basedon }}</td></tr>
+<tr><td class="label">Contributor</td><td> {{ contributors }}</td></tr>
+{% if PMID %}
+<tr><td class="label">PubMed ID</td><td><a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ PMID }}" target="_blank" class="exlink">{{ PMID }}</a>
+</td></tr>
+{% endif %}
+<tr><td class="label">Contact Information</td><td>{{ name }}, {{ organization }}, {{ department }}, {{ laboratory }}</td></tr>
+<tr><td class="label">Summary of methods</td><td>{{ method_summary }}</td></tr>
+<tr><td class="label">Data Scale<BR>(XYZ, T)</td><td>
+{{ xscale }} x {{ yscale }} x {{ zscale }} ({{ xyzunit }}), {{ tscale }} ({{ tunit }})
+</td></tr>
+</table>
+</div>
+</body>
+{% endblock %}

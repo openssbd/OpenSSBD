@@ -1,0 +1,417 @@
+{% extends "base.html" %}
+{% block title %}PDPML version 0.06 Specification{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li class="active"><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+  <div class="search_field">
+    <form method="GET" action="">{% csrf_token %}
+     <div class="search_form">
+       <p>Search Services: {{ form.value }}
+	 <input name='form-submit' type="submit" value="Search" id="btn" /><a href="/search/">Advanced</a> <a class="grey" href="/manuals/">Help</a></p>
+     </div>
+     </form>
+  </div>
+{% endblock %}
+
+{% block content %}
+{% load static %}
+  <div class="main">
+    <h2>PDPML version 0.06 Specification</h2>
+    
+    <div class="text">
+      <h3><u>&lt;pdpml&gt;</u></h3>
+      <table class="layout">
+	<tr>
+	  <td class="label">Definition: </td>
+	  <td>This is the root element for the PDPML schema.</td>
+	</tr>
+	<tr>
+	  <td class="label">Type: </td>
+	  <td>pdpmlDocument</td>
+	</tr>
+	<tr>
+	  <td class="label">Attributes: </td>
+	  <td>
+	    <table class="layout2">
+	      <tr><th>Attribute Name</th><th>Data Type</th><th>Use</th><th>Definition</th></tr>
+	      <tr><td>version</td><td>xsd:positiveInteger</td><td>requied</td><td>The version of this PDPML document.</td></tr>
+	    </table>
+	  </td>
+	</tr>
+	<tr>
+	  <td class="label">Subelements: </td>
+	  <td>
+	    <table class="layout2">
+	      <tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+	      <tr><td><a href="#info">info</a></td><td>Info</td><td>1</td><td>1</td><td>Information about the PDPML file itself.</td></tr>
+	      <tr><td><a href="#summary">summary</a></td><td>Summary</td><td>1</td><td>1</td><td>Summary of the procedures described in the PDPML file.</td></tr>
+	      <tr><td><a href="#contact">contact</a></td><td>Contact</td><td>1</td><td>1</td><td>Contact information for the PDPML file.</td></tr>
+	      <tr><td><a href="#procedure">procedure</a></td><td>Procedure</td><td>1</td><td>1</td><td>Procedure for data processing.</td></tr>
+	    </table>
+	  </td>
+	</tr>
+	<tr>
+	  <td class="label">Example: </td>
+	  <td>
+<PRE>
+&lt;pdpml version="0.06" xsi:schemaLocation="http://ssbd.qbic.riken.jp/pdpml http://ssbd.qbic.riken.jp/pdpml/pdpml0.06.xsd"&gt;
+  &lt;info&gt;
+    &lt;pdpmlID&gt;0eb03d7c-cd2a-4198-bb0f-49fa43f629bd&lt;/pdpmlID&gt;
+    ...
+  &lt;/info&gt;
+  &lt;summary&gt;
+    &lt;description&gt;Method for obtaining cell division dynamics&lt;/description&gt;
+    ...
+  &lt;/summary&gt;
+  &lt;contact&gt;
+    &lt;name&gt;Shuichi Onami&lt;/name&gt;
+    ...
+  &lt;/contact&gt;
+  &lt;procedure&gt;
+      ...
+      ...
+      ...
+  &lt;/procedure&gt;
+&lt;/pdpml&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+
+			
+			<div class="text">
+				<h3><u>&lt;<a name="info">info</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Information about the PDPML file itself.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Info</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>pdpmlID</td><td><a href="#UUIDType">UUIDType</a></td><td>1</td><td>1</td><td>Unique ID of the PDPML file.</td></tr>
+								<tr><td>title</td><td>xsd:string</td><td>1</td><td>1</td><td>Title of the PDPML file.</td></tr>
+								<tr><td>version</td><td>xsd:positiveInteger</td><td>1</td><td>1</td><td>Version of the PDPML file.</td></tr>
+								<tr><td>release</td><td>xsd:date</td><td>1</td><td>1</td><td>Relase date of the PDPML file.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;info&gt;
+  &lt;pdpmlID&gt;0eb03d7c-cd2a-4198-bb0f-49fa43f629bd&lt;/pdpmlID&gt;
+  &lt;title&gt;File of the procedures for data processing to obtain cell division dynamics&lt;/title&gt;
+  &lt;version&gt;1&lt;/version&gt;
+  &lt;release&gt;2013-06-11&lt/release&gt;
+&lt;/info&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="summary">summary</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Summary of the data described in the PDPML file.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Summary</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>description</td><td>xsd:string</td><td>1</td><td>1</td><td>Detailed explaination of the procedures.</td></tr>
+								<tr><td>contributors</td><td>xsd:string</td><td>1</td><td>1</td><td>Contributors who designed the procedures.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;summary&gt;
+  &lt;description&gt;Method for obtaining cell division dynamics&lt;/description&gt;
+  &lt;contributors&gt;Koji Kyoda, Shugo Hamahashi, Mitsuru Urai, and Shuichi Onami&lt;/contributors&gt;
+&lt;/summary&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="contact">contact</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Contact information for the PDPML file.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Contact</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>name</td><td>xsd:string</td><td>1</td><td>1</td><td>Name of the corresponding author of the PDPML file.</td></tr>
+								<tr><td>E-mail</td><td>xsd:string</td><td>1</td><td>1</td><td>E-mail address of the corresponding author.</td></tr>
+								<tr><td>phone</td><td>xsd:string</td><td>0</td><td>1</td><td>Phone number of the corresponding author.</td></tr>
+								<tr><td>URL</td><td>xsd:anyURI</td><td>0</td><td>1</td><td>A URL link to the laboratory of the corresponding author.</td></tr>
+								<tr><td>organization</td><td>xsd:string</td><td>1</td><td>1</td><td>Organization, with which the corresponding author is affiliated.</td></tr>
+								<tr><td>department</td><td>xsd:string</td><td>0</td><td>1</td><td>Department of the organization.</td></tr>
+								<tr><td>laboratory</td><td>xsd:string</td><td>0</td><td>1</td><td>Name of the laboratory.</td></tr>
+								<tr><td>address</td><td>xsd:string</td><td>0</td><td>1</td><td>Address of the corresponding author.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;contact&gt;
+  &lt;name&gt;Shuichi Onami&lt;/name&gt;
+  &lt;E-mail&gt;......@.......&lt;/E-mail&gt;
+  &lt;organization&gt;RIKEN&lt;/organization&gt;
+  &lt;department&gt;Quantitative Biology Center&lt;/department&gt;
+  &lt;laboratory&gt;Laboratory for Developmental Dynamics&lt;/laboratory&gt;
+  &lt;address&gt;2-2-3 Minatojima-minamimachi, Chuo-ku, Kobe 650-0047, Japan&lt;/address&gt;
+&lt;/contact&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="procedure">procedure</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Procedure for data processing described in the PDPML file.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Procedure</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>description</td><td>xsd:string</td><td>0</td><td>1</td><td>Details of the procedure for data processing.</td></tr>
+								<tr><td>step</td><td>Step</td><td>1</td><td>unlimited</td><td>Each step in the procedure.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;procedure&gt;
+  &lt;description&gt;We first automatically detected nuclear regions (step order=1).
+		We next manually corrected some errors (step order=2).
+		Lastly, we identified the trajectory of nuclear division dynamics.&lt;/description&gt;
+  &lt;step name="automatic detection" order="1"&gt;
+    ...
+  &lt;/step&gt;
+  &lt;step name="manual error correction" order="2"&gt;
+    ...
+  &lt;/step&gt;
+  &lt;step name="tracking of nuclear regions" order="3"&gt;
+    ...
+  &lt;/step&gt;
+&lt;/procedure&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;<a name="step">step</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Each sep of the procedure.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Step</td>
+					</tr>
+					<tr>
+						<td class="label">Attributes: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Attribute Name</th><th>Data Type</th><th>Use</th><th>Definition</th></tr>
+								<tr><td>name</td><td>xsd:string</td><td>requied</td><td>The name of the step.</td></tr>
+								<tr><td>order</td><td>xsd:positiveInteger</td><td>optional</td><td>The order of the step.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>annotation</td><td>xsd:string</td><td>0</td><td>1</td><td>Details of each step.</td></tr>
+								<tr><td><a href="#program">program</a></td><td>Program</td><td>1</td><td>1</td><td>Program used in the step.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;step name="automatic detection" order="1"&gt;
+  &lt;annotation&gt;
+    automatic detection of nuclear regions
+  &lt;/annotation&gt;
+  &lt;program&gt;
+    ...
+  &lt;/program&gt;
+&lt;/step&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+			
+			
+			<div class="text">
+				<h3><u>&lt;program</a>&gt;</u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>Program used in the step.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>Program</td>
+					</tr>
+					<tr>
+						<td class="label">Subelements: </td>
+						<td>
+							<table class="layout2">
+								<tr><th>Subelement Name</th><th>Data Type</th><th>min</th><th>max</th><th>Definition</th></tr>
+								<tr><td>name</td><td>xsd:string</td><td>1</td><td>1</td><td>The name of the program.</td></tr>
+								<tr><td>version</td><td>xsd:string</td><td>0</td><td>1</td><td>The version of the program.</td></tr>
+								<tr><td>url</td><td>xsd:anyURI</td><td>0</td><td>1</td><td>A URL to download site of the program.</td></tr>
+								<tr><td>description</td><td>xsd:string</td><td>0</td><td>1</td><td>Details of configuration and the parameters used in the program.</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Example: </td>
+						<td>
+<PRE>
+&lt;program&gt;
+  &lt;name&gt;nuclear_detection&lt;/name&gt;
+  &lt;url&gt;http://so.qbic.riken.jp/nuclear_detection/&lt;/url&gt;
+  &lt;description&gt;Use of nuclear_detection.tar.bz2 with a little modification. 
+  list of parameters, window_size: 13x13; binary_threhold: 145; snakes_parameters: 0.9, 0.9, 0.9&lt;/description&gt;
+&lt;/program&gt;
+</PRE>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+
+
+			
+			<div class="text">
+				<h3><u><a name="UUIDType">UUIDType</a></u></h3>
+				<table class="layout">
+					<tr>
+						<td class="label">Definition: </td>
+						<td>A Universally unique identifier.</td>
+					</tr>
+					<tr>
+						<td class="label">Type: </td>
+						<td>xsd:string</td>
+					</tr>
+					<tr>
+						<td class="label">Pattern: </td>
+						<td>
+							<table class="layout2">
+								<tr><td>[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">Notes: </td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			
+
+		</div>
+	</div>
+{% endblock %}

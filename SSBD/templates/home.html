@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Home{% endblock %}
+{% block search %}{% endblock %}
+
+{% block content %}
+<div class="main">
+
+<h2>Profile change [ {{ user.username }} ]</h2>
+
+<div class="text">
+<form action="" method="POST">{% csrf_token %}
+  <p>
+  {{ profile_form }}
+  </p>
+  <input id="btn" name='change_profile' type="submit" value="Save" />
+</form>
+</div>
+
+<h2>Password change</h2>
+
+<div class="text">
+<form action="" method="POST">{% csrf_token %}
+  <p>
+  {{ password_form }}
+  </p>
+  <input id="btn" name='change_password' type="submit" value="Save" />
+</form>
+</div>
+
+<div class="text">
+<font color=red>{{ message }}</font>
+</div>
+
+</div>
+{% endblock %}

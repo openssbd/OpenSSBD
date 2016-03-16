@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Index of {{ directory }}{% endblock %}
+{% block search %}{% endblock %}
+
+{% block content %}
+<div class="main">
+
+<h2>Index of {{ directory }}</h2>
+
+<div class="text">
+    <ul>
+    {% for f in file_list %}
+    <li><a href="{{ f }}">{{ f }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}BDML Manuals{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li class="active"><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+		<div class="main">
+			<h2>Biological Dynamics Markup Language</h2>
+			<div class="text">
+				<h3>What is BDML?</h3>
+				<p>BDML (Biological Dynamics Markup Language) is an open format for representing quantitative data of biological dynamics. It is based on eXtensible Markup Language (XML). BDML covers a wide variety of quantitative data of biological dynamics from molecules to cells to organisms. The following paper is describing BDML and BDML-compatible software tools. Version of BDML is corresponding to <a href="/omicsbdml/">OmicsBDML schema</a>.
+				</p><br />
+				
+                                <h3>Publications describing BDML</h3>
+                                <p><B>Koji Kyoda, Yukako Tohsato, Kenneth H. L. Ho, Shuichi Onami (2015)</B><BR>Biological Dynamics Markup Language (BDML): an open format for representing quantitative biological dynamics data. <I>Bioinformatics</I> 31(7): 1044-1052 (<a href="http://bioinformatics.oxfordjournals.org/content/31/7/1044" class="exlink">online link</a>).</p>
+
+				<h3>BDML schema</h3>
+				<p><a href="http://ssbd.qbic.riken.jp/bdml/bdml0.2.xsd">BDML version 0.20 schema file (the latest version)</a>
+				<p><a href="http://ssbd.qbic.riken.jp/bdml/bdml0.18.xsd">BDML version 0.18 schema file</a>
+				<p><a href="http://ssbd.qbic.riken.jp/bdml/bdml0.15.xsd">BDML version 0.15 schema file</a>
+
+				<h3>BDML specification</h3>
+				<p><a href="./bdml0.20specification.html">BDML version 0.20 specification</a>
+				<p><a href="./bdml0.18specification.html">BDML version 0.18 specification</a>
+				</p><br />
+			</div>				
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Manuals{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li class="active">Manuals</li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<div class="main">
+
+<h2>Systems Science of Biological Dynamics Database</h2>
+
+<div class="text">
+
+<h3 id="search">What is SSBD?</h3>
+<p>Systems Science of Biological Dynamics database (SSBD) is an open repository for quantitative data with spatiotemporal information and microscopic images used to produce them. Quantitative data are represented by using a unified data format, the <a href="/bdml/">Biological Dynamics Markup Language</a>. SSBD utilises OMERO internally to manage microscopic images and their metadata. 
+SSBD also provides a <a href="/restfulapi/">RESTFul API</a> allowing 3rd party applications, such as R, Python, Java and C/C++ to access the data directly from the database. In addition, SSBD provides <a href="/rdf/">Resource Description Framework (RDF) formatted meta-information</a> of the quantitative data and the corresponding microscopy images at <a href="http://metadb.riken.jp/metadb/db/SSBD" class="exlink" target="_blank">RIKEN Meta Database</a>. </p>
+</div>
+
+<div class="text">
+
+<h3 id="search">Database Search</h3>
+<p>You can search quantitative biological dynamical data in SSBD database using Advanced Search and Simple Search.</p><br />
+
+<h4>Advanced Search</h4>
+<p>Use the Advanced search to search for terms in a specific search field. To search by organism, select Organism from the fields, and then enter an organism's name. To search for other fields in BDML schema, please use the pull-down menus to select a field label on the advanced search. 'All fields' are searched by default. You can search the following fields:
+<ul>
+<li><b>bdmlID</b> : BDML ID is a Universally Unique Identifier (UUID) that has a 128-bits identifier.</li>
+<li><b>title</b> : Short title for the BDML-file</li>
+<li><b>description</b> : A short summary of content of the data and how they can be interpreted.</li>
+<li><b>organism</b> : Name of the scientific organism. This is required when biological samples are handled.</li>
+<li><b>datatype</b> : Types of data, e.g. single molecule dynamics</li>
+<li><b>localID</b> : identifier in BDML ver. 0.15 and local ID in BDML ver. 0.18 is the key that links BDML-file</li>
+<li><b>basedon</b> : Describes the souce of the data, either 'Measurement' or 'Simulation'</li>
+<li><b>contaributors</b> : The names of the contributos</li>
+<li><b>pmid</b> : To search for a PubMed Identifier, enter the ID with the search field [pmid]</li>
+<li><b>contactname</b> : The contact name of the BDML-file</li>
+<li><b>organization</b> : organization of contact author</li>
+</ul>
+</p>
+
+<p>Boolean operators provide a way of generating precise queries that produce well-defined sets of results. The following operators are supported in SSBD:
+<ul>
+<li><b>AND</b>: Finds documents that contain terms on both sides of the AND operator. It represents the intersection of both sets of search results.</li>
+<li><b>OR</b>: Finds documents that contain either term. It represents a union of both sets of search results.</li>
+<li><b>NOT</b>: Finds documents that contain the term on the left but not the term on the right of the operator.</li>
+</ul>
+Note that the default Boolean operator is AND; if desired, choose OR or NOT from the pull-down menu.
+If you choose <b>'Search'</b> button, them Advanced Search is performed. To add a new search condition, please click on the <b>'Add'</b> button. 
+</p>
+
+<p>The search term makes no distinction between capital and lowercase letters. A search for "C. elegans" will find "c. elegans" as well and also "C. ELEGANS".</p><br />
+
+<h3 id="summary">Summary View of BDML-file</h3>
+<p>When you select the URLs within searching results, you will see a summary of the selected BDML-file. The URL are constructed by combining 'http://ssbd.qbic.riken.jp/search/' and a unique ID of the selected BDML file: e.g. <a href="http://ssbd.qbic.riken.jp/search/afc304bc-7cca-4c92-8764-f5957dd06e3d/" class="exlink" target="_blank">http://ssbd.qbic.riken.jp/search/afc304bc-7cca-4c92-8764-f5957dd06e3d/</a>. </p>
+
+<p>A JavaScript viewer is being implemented for synchronous viewing of microscopy images and their corresponding quantitative information through a web browser. BDML and PDPML files are available for download via http. These URLs can be used as scripted for batch downloads using utilities such as wget. When the source images were stored in SSBD database, image files were compressed into a single zip archive and they are available for download via http. You can access it through the 'Summary of Images' section. You can find a direct link to datasets using a URL in OMERO.web in the 'Summary' view. For example, to link to Dataset 15 on OMERO.web hosted at <a href="http://ssbd.qbic.riken.jp/omero/webclient" class="exlink" target="_blank">http://ssbd.qbic.riken.jp/omero/webclient</a> the full URL will be: <a href="http://ssbd.qbic.riken.jp/omero/webclient/?show=dataset-15" class="exlink" target="_blank">http://ssbd.qbic.riken.jp/omero/webclient/?show=dataset-15</a>.</p>
+<p>
+<img src="{% get_static_prefix %}WEB/web_images/fig_page_summary.png" class="image_frame" />
+</p>
+<br />
+
+</div>
+
+</div>
+
+{% endblock %}

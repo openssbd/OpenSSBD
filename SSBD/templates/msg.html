@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}{{ title }}{% endblock %}
+{% block search %}{% endblock %}
+
+{% block content %}
+<div class="main">
+
+<h2>{{ title }}</h2>
+
+<div class="text">
+{{ message }}
+</div>
+
+</div>
+{% endblock %}

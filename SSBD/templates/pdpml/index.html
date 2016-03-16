@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}PDPML (Procedure for Data Processing Markup Language{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li class="active"><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+  <div class="main">
+    <h2>Procedure for Data Processing Markup Language</h2>
+    <div class="text">
+      <h3>What is PDPML?</h3>
+      <p>PDPML (Procedure for Data Processing Language) is an open format for representing the method used to obtain the quantitative data from experimental measurements and computer simulations. It is based on eXtensible Markup Language (XML).
+      </p><br />
+      
+      <h3>PDPML schema</h3>
+      <p><a href="http://ssbd1.qbic.riken.jp/pdpml/pdpml0.06.xsd">PDPML version 0.06 schema file (the latest version)</a>
+      <p><a href="http://ssbd1.qbic.riken.jp/pdpml/pdpml0.05.xsd">PDPML version 0.05 schema file</a>
+	<h3>PDPML specification</h3>
+      <p><a href="./pdpml0.06specification.html">PDPML version 0.06 specification</a>
+      </p><br />
+    </div>				
+  </div>
+{% endblock %}

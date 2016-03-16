@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}phenochar: analysis of phenotypic characters{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li class="active"><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+  <div class="main">
+    <h2>phenochar</h2>
+    
+    <div class="text">
+      <h3>About phenochar</h3>
+      phenochar is a software package for extracting phenotypic characters from BDML files.
+      
+      <h3>Download pages</h3>
+      <ul>
+	<li><a href="./phenochar1.0.html">phenochar for BDML version 0.15</a></li>
+	<li><a href="./phenochar2.0.html">phenochar for BDML version 0.18</a></li>
+	<li><a href="./phenochar3.0.html">phenochar for BDML version 0.20</a></li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

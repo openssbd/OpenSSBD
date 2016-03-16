@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block script %}
+<script type="text/javascript">
+function open_sub() {
+    window.open ( "test.jpg", "" , "width=300,height=300" );
+}
+</script>
+{% endblock %}
+{% block title %}Detail of XML data{% endblock %}
+{% block content %}
+<h2>Summary of BDML data</h2>
+{% if data_list %}
+<p>
+<table>
+  {% for d in data_list %}
+  <tr><td>{{ d.key }}</td><td>{{ d.data }}</td></tr>
+  {% endfor %}
+</table>
+</p>
+{% else %}
+<p>No data.</p>
+{% endif %}
+{% if file_base %}
+<form>
+  <input id="btn" type="button" value="View BDML" onClick="location.href='/bdml/view_xml/{{ file_base }}/'">
+  <input id="btn" type="button" value="Download BDML" onClick="location.href='/bdml/download_xml/{{ file_base }}/'">
+</form>
+{% endif %}
+{% endblock %}

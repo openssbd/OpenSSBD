@@ -1,0 +1,48 @@
+{% load staticfiles %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta http-equiv="Content-Style-Type" content="text/css" />
+ <meta http-equiv="Content-Script-Type" content="text/javascript" />
+ <meta name="keywords" content="" />
+ <link rel="stylesheet" href="{% static 'WEB/css/style.css' %}" type="text/css" />
+ {% block script %}{% endblock %}
+ <title>{% block title %}OpenSSBD for Systems Science of Biological Dynamics{% endblock %}</title>
+</head>
+<body>
+ <div class="content">
+  <div class="header">
+   <div class="top_info">
+    <div class="top_info_right">
+    </div>
+   </div>
+   <div class="logo">
+     <h1><a href="/" title="Centralized Internet Services"><span class="orange">OpenSSBD</span> Database Engine</a></h1>
+   </div>
+  </div>
+
+  {% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+  {% endblock %}
+
+  {% block search %}{% endblock %}
+
+  {% block content %}{% endblock %}
+  
+  <div class="footer">
+   
+  </div>
+ </div>
+</body>
+</html>

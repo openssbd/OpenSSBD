@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Search{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li class="active"><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+  <div class="search_field">
+    <form method="GET" action="">{% csrf_token %}
+     <div class="search_form">
+       <p>Search Services: {{ form.value }}
+	 <input name='form-submit' type="submit" value="Search" id="btn" /><a href="/search/">Advanced</a> <a class="grey" href="/manuals/">Help</a></p>
+     </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+<div class="main">
+
+{% if data_list %}
+<h2>Results: {{ start_number }} to {{ end_number }} of {{ data_count }} </h2>
+<div class="text">
+<ol start={{ start_number }}>
+{% for d in data_list %}
+<li><a href="/search/{{ d.bdmlUUID }}/">BDML ID: {{ d.bdmlUUID }}</a><br> <!-- d.info.bdmlID -->
+    <span class="orange">ORGANISM:</span> {{ d.meta_data.organism }},
+    <span class="orange">DATATYPE:</span> {{ d.meta_data.datatype }},
+    <span class="orange">BASEDON:</span> {{ d.meta_data.basedon }},
+    <span class="orange">LOCAL ID:</span> {{ d.meta_data.localid }},
+    <span class="orange">SCHEMA:</span> {{ d.schema_ver }}, <br>
+    <span class="orange">DESCRIPTION:</span> {{ d.meta_data.description }} 
+</li>
+{% endfor %} 
+</ol>
+</div>
+
+<div class="pager">
+{% if has_previous %}
+<input name='form-submit' type="submit" value="Previous" id="btn">
+{% endif %}
+<span class="current"> Page {{ page }} of {{ page_number }}</span>  
+{% if has_next %}
+<input name='form-submit' type="submit" value="Next" id="btn">
+{% endif %}
+</div>
+<input name='page' type="hidden" value="{{ page }}">
+</form>
+
+{% else %}
+</form>
+<h2>Results:</h2>
+<div class="text">No hit.</div>
+
+{% endif %}
+
+{% if debug %}
+<h2>Debug:</h2>
+<div class="text"><p style="color: red;">{{ debug }}</p></div>
+{% endif %}
+
+</div>
+{% endblock %}

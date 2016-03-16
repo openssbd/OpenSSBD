@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Summary of BDML data{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<div class="main">
+
+<h2>Summary of BDML data</h2>
+
+{% if bdml %}
+<div class="text">
+<table class="layout">
+  <tr><td class="label">BDML ID</td><td>{{ update.bdmlUUID }} (status: <a href="/history/{{ update.ssbd_id }}/">{{ update.status }}</a>)</td></tr>
+  <tr><td class="label">Title</td><td>{{ bdml.info.title }}</td></tr>
+  <tr><td class="label">License</td><td>{{ bdml.info.license }} license</td></tr>
+  <tr><td class="label">Description</td><td>{{ bdml.summary.description }}
+{% if link_list %}
+  {% for l in link_list %}
+  [<a href="{{ l.URL }}" target="_blank">{{ l.database.name }}</a>]
+  {% endfor %}
+{% endif %}
+</td></tr>
+  <tr><td class="label">Organism</td><td>{{ bdml.summary.organism }}</td></tr>
+  <tr><td class="label">Datatype</td><td>{{ bdml.summary.datatype }}</td></tr>
+  <tr><td class="label">Local ID</td><td>{{ bdml.summary.identifier }}</td></tr>
+  <tr><td class="label">Basedon</td><td> {{ bdml.summary.basedon }}</td></tr>
+  <tr><td class="label">Contributor</td><td> {{ bdml.summary.contributors }}</td></tr>
+{% if bdml.summary.PMID %}
+  <tr><td class="label">PubMed ID</td><td><a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ bdml.summary.PMID }}" target="_blank" class="exlink">{{ bdml.summary.PMID }}</a>
+</td></tr>
+{% endif %}
+  <tr><td class="label">Contact Information</td><td>{{ bdml.contact.name }}, {{ bdml.contact.organization }}, {{ bdml.contact.department }}, {{ bdml.contact.laboratory }}</td></tr>
+  <tr><td class="label">Summary of methods</td><td>{{ bdml.methods.summary }}</td></tr>
+{% if image_path %}
+  <tr><td class="label">Source</td><td><a href="http://ssbd.qbic.riken.jp{{ image_path }}" target="_blank">http://ssbd.qbic.riken.jp{{ image_path }}</a></td></tr>
+{% else %}
+  <tr><td class="label">Source</td><td><a href="{{ bdml.methods.source }}" target="_blank">{{ bdml.methods.source }}</a></td></tr>
+{% endif %}
+{% if pdpml_path %}
+  <tr><td class="label">PDPML file</td><td><a href="http://ssbd.qbic.riken.jp{{ pdpml_path }}" target="_blank">http://ssbd.qbic.riken.jp{{ pdpml_path }}</a> (<a href="http://ssbd.qbic.riken.jp{{ pdpml_path }}.md5" target="_blank">md5</a>)</td></tr>
+{% endif %}
+{% if bdml_path %}
+  <tr><td class="label">BDML file</td><td><a href="http://ssbd.qbic.riken.jp{{ bdml_path }}" target="_blank">http://ssbd.qbic.riken.jp{{ bdml_path }}</a> (<a href="http://ssbd.qbic.riken.jp{{ bdml_path }}.md5" target="_blank">md5</a>) </td></tr>
+  <tr><td class="label">Data Scale (XYZ,T)</td><td>
+      {{ bdml.data.scaleUnit.xScale }} x {{ bdml.data.scaleUnit.yScale }} x {{ bdml.data.scaleUnit.zScale }} ({{ bdml.data.scaleUnit.xyzUnit }}), {{ bdml.data.scaleUnit.tScale }} ({{ bdml.data.scaleUnit.tUnit }})
+      </td></tr>
+{% endif %}
+
+</table>
+</div>
+<div class="right_botton">
+<form>
+{%  if bdml %}
+  <input id="btn" type="button" value="View" onClick="location.href='/view4d/{{ bdml.bdml_id}}'" target="_blank">
+{% endif %}
+{% if image_path %}
+  <input id="btn" type="button" value="DL Images" onClick="location.href='{{ image_path }}'" target="_blank">
+{% endif %}
+{% if pdpml_path %}
+  <input id="btn" type="button" value="DL PDPML" onClick="location.href='{{ pdpml_path }}'" target="_blank">
+{% endif %}
+{% if bdml_path %}
+  <input id="btn" type="button" value="DL BDML" onClick="location.href='{{ bdml_path }}'" target="_blank">
+{% endif %}
+</form>
+</div>
+<h2>Summary of Images</h2>
+{% if omero %}
+<div class="text">
+<table class="layout">
+  <tr><td class="label">Dataset name</td>
+      <td>{{ omero.dataset.name }} (<a href='http://ssbd.qbic.riken.jp/omero/webclient/?show=dataset-{{ omero.dataset.id }}' target="_blank">view dataset in OMERO.web</a>)</td></tr>
+  <tr><td class="label">Number of images</td>
+      <td>{{ omero.dataset.image_count }}</td></tr>
+  <tr><td class="label">Sample Image information</td>
+      <td>{{ omero.image.name }} (<a href='http://ssbd.qbic.riken.jp/omero/webclient/img_detail/{{ omero.image.id }}' target="_blank">view image in OMERO.web</a>)</td></tr>
+  <tr><td class="label"></td>
+      <td>Dimensions (XYZ): {{ omero.image.x }} x {{ omero.image.y }} x {{ omero.image.z }}</td></tr>
+  <tr><td class="label"></td>
+      <td>Pixels Type: {{ omero.image.pixel_type }}</td></tr>
+{% if omero.pixel_x %}
+  <tr><td class="label"></td>
+      <td>Pixels Size(XYZ)(um): {{ omero.pixel_x }} x {{ omero.pixel_y }} x {{ omero.pixel_z }}</td></tr>
+{% endif %}
+  <tr><td class="label"></td>
+      <td>Timepoints: {{ omero.dataset.image_count }}</td></tr>
+  <tr><td class="label"></td>
+      <td>Channels: {{ omero.image.c }}</td></tr>
+  <tr><td class="label">Sample Image</td>
+      <td><img src="{% get_static_prefix %}WEB/th_images/{{ omero.image.path }}" class="image_frame" /></td></tr>
+</table>
+</div>
+{% else %}
+<div class="text">No data.</div>
+{% endif %}
+{% else %}
+<div class="text">No data.</div>
+{% endif %}
+
+{% if debug %}
+<h2>Debug</h2>
+<div class="text"><p style="color: red;">{{ debug }}</p></div>
+{% endif %}
+
+</div>
+{% endblock %}

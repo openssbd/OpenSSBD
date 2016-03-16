@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Downloads{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li class="active">Software</li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+<div class="main">
+
+<h2>Active Schemas</h2>
+
+<div class="text">
+Latest release of BDML and PDPML schemas can be found here. Some browsers will try to render the XSD files when you click on the link below. This can result in either a blank screen or a screen of unformatted text. Please choose to either download the file or view the source. 
+Please see <a href="/bdml/">BDML manual</a>,  <a href="/omicsbdml/">OmicsBDML manual</a>, and <a href="/pdpml/index.html">PDPML manual</a> for more details. 
+<ul>
+<li><b><a href="http://ssbd.qbic.riken.jp/bdml/bdml.xsd">bdml.xsd</a></b> - Version 0.20, updated on August 28, 2014<br>
+    The main schema used to describe quantitative biological and dynamical data</li>
+<li><b><a href="http://ssbd.qbic.riken.jp/omicsbdml/omicsbdml.xsd">omicsbdml.xsd</a></b> - Version 0.18, updated on October 03, 2014<br>
+    The sub schema used to describe quantitative biological and dynamical data</li>
+<li><b><a href="http://ssbd.qbic.riken.jp/pdpml/pdpml.xsd">pdpml.xsd</a></b> - Version 0.06, update on June 18, 2014<br>
+    The PDPML schema used to describe data processing of the quantitative biological data</li>
+</ul>
+</div>
+
+<h2>Software</h2>
+
+<div class="text">
+<ul>
+<li><b>BDML4DViewer</a></b> - a plugin of ImageJ software for visalizing BDML files. Please see <a href="/BDML4DViewer/index.html">BDML4DViewer manual</a> for details. </li>
+<ul>
+<li><b><a href="http://ssbd.qbic.riken.jp/BDML4DViewer/jar/BDML4DViewer015_.jar">BDML4DViewer015_.jar</a></b>: It supports for BDML version 0.15, and released June 18, 2014</li>
+<li><b><a href="http://ssbd.qbic.riken.jp/BDML4DViewer/jar/BDML4DViewer018_.jar">BDML4DViewer018_.jar</a></b>: It supports for BDML version 0.18, and released June 18, 2014</li>
+<li><b><a href="http://ssbd.qbic.riken.jp/BDML4DViewer/jar/BDML4DViewer020_.jar">BDML4DViewer020_.jar</a></b>: It supports for BDML version 0.20, and released August 28, 2014</li>
+</ul>
+<li><b>phenochar</a></b> - a software package for extracting phenotypic characters from BDML files. Please see <a href="/phenochar/index.html">phenochar manual</a> for details. </li>
+<ul>
+<li><b><a href="http://ssbd.qbic.riken.jp/phenochar/src/phenochar1.0v3.zip">phenochar1.0v3.zip</a></b>: It supports for BDML version 0.15, and updated November 27, 2015</li>
+<li><b><a href="http://ssbd.qbic.riken.jp/phenochar/src/phenochar2.0v2.zip">phenochar2.0v2.zip</a></b>: It supports for BDML version 0.18, and updated November 27, 2015</li>
+<li><b><a href="http://ssbd.qbic.riken.jp/phenochar/src/phenochar3.0v1.zip">phenochar3.0v1.zip</a></b>: It supports for BDML version 0.20, and released August 28, 2014</li>
+</ul>
+
+<li><b>SSBD-OMERO.insight</a></b> - a plugin of ImageJ software for reading movies and images, which are managed with OMERO.web in SSBD database.</li>
+<ul>
+<li><b><a href="http://ssbd.qbic.riken.jp/SSBD-OMERO.insight/zip/SSBD-OMERO.insight-ij-5.0.4-ice34.zip">SSBD-OMERO.insight-ij-5.0.4-ice34.zip</a></b>: It supports for OMERO.web version 5.0.4, and released Oct. 3, 2014. Please see <a href="/SSBD-OMERO.insight/">SSBD-OMERO.insight manual</a> for details.</li>
+</ul>
+
+</div>
+
+
+</div>
+{% endblock %}

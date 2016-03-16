@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}BDML Manuals{% endblock %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/resources/">Resources</a></li>
+    <li class="active"><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+		<div class="main">
+			<h2>BDML4DViewer (v0.2)</h2>
+			
+			<div class="text">
+				<h3>BDML4DViewer020</h3>
+				BDML4DViewer020 is a pulugin of ImageJ software. The plugin enables reading and visualizing content of BDML version 0.2 files.
+				
+				<h3>Author</h3>
+				SSBD Group (ssbd at riken.jp)
+				<h3>History</h3>
+				2014/08/28: First version
+				<h3>Source</h3>
+				<a href="http://ssbd.qbic.riken.jp/BDML4DViewer/src/BDML4DViewer020_.zip">BDML4DViewer020_.zip</a>
+				<h3>Installation</h3>
+				Download <a href="http://ssbd.qbic.riken.jp/BDML4DViewer/jar/BDML4DViewer020_.jar">BDML4DViewer020_.jar</a> to the plugins folder and restart ImageJ. <a href="http://jogamp.org/jogl/www/" class="exlink">Java Binding of the OpenGL (JOGL)</a> needs to be installed.
+				<h3>Description</h3>
+				This plugin enables visualization of content described in BDML version 0.2 file.
+				<h3>Function</h3>
+				<ul>
+				<li>View angle of objects can be changed by the mouse to drag-and-move.</li>
+				<li>Zoom-in and zoom-out can be accomplished by up and down arrow keys.</li>
+				<li>Time frame can be changed by right and left arrow keys.</li>
+				<li>Time frame can be also changed by using a slider.</li>
+				</ul>
+				<br />
+				<a href="./index.html">Back to BDML4D Viewer Home</a>
+			</div>
+		</div>
+{% endblock %}

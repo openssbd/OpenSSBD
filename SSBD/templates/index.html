@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+{% block bar %}
+  <div class="bar">
+   <ul>
+    <li class="browse_text">Browse through categories:</li>
+    <li class="active">Home</li>
+    <li><a href="/resources/">Resources</a></li>
+    <li><a href="/manuals/">Manuals</a></li>
+    <li><a href="/publications/">Publications</a></li>
+    <li><a href="/news/">News</a></li>
+    <li><a href="/software/">Software</a></li>
+    <li><a href="/search/">Advanced search</a></li>
+   </ul>
+  </div>
+{% endblock %}
+
+{% block search %}
+{% endblock %}
+
+{% block content %}
+  <div class="left">
+    <h2>Introduction to <span class="orange">OpenSSBD</span></h2>
+    <div class="left_box">
+      <p><b>OpenSSBD for Systems Science of Biological Dynamics</b> is a database engine that provides a rich set of resources for storing quantitative biological data. 
+      These quantitative numerical data are represented in a new <b>Biological Dynamics Markup Language (BDML)</b>. The new data format allows users to exchange, store, compare and analyze data through the OpenSSBD database.
+      Users can download quantitative biological dynamics data directly in BDML format from the SSBD database. 
+      A range of software tools and applications for visualizing and analyzing quantitative biological dynamical data are developed through a set of SSBD APIs.</p>
+    </div>
+
+    {% if news_list %}
+    <h2>News and Events</h3>
+    <div class="left_box">
+    <ul id="nav">
+      {% for news in news_list %}
+      <li><b><span class="orange">{{ news.date }}:</span></b> <i>{{ news.title }}</i> <BR> {{ news.text }}</li>
+      {% endfor %}
+      <li><a href="/news/">Older news ...</a></li>
+    </ul>
+    </div>
+    {% endif %}
+
+    {% if sample_list %}
+    <h2>Sample Datasets</h2>
+    <div class="left_box_images">
+      <table>
+      <tr>
+      {% for text, path, id in sample_list %}
+      <td width=180><a href="/search/{{ id }}"><img src="{% get_static_prefix %}WEB/th_images/{{ path }}" alt="Image" title="Image" class="image_frame" width=180/></a>
+	<br><div class="fig_text">{{ text }}</div></td>
+      {% endfor %}
+      </tr>
+      </table>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="right">
+    <h3>Menu</h3>
+    <ul id="nav">
+      <li><b>BDML and PDPML schemas</b> can be found <a href="/download/">here</a>.</li>
+
+    </ul>
+
+    
+    <h3>Links</h3>
+    <ul id="nav">
+      <li><a href="http://ssbd.qbic.riken.jp/" class="exlink" target="_blank">SSBD</a></li>
+    </ul>
+  </div> 
+{% endblock %}
