@@ -50,15 +50,13 @@ There are two recommended installation methods:
         ```
          # wget http://ssbd.qbic.riken.jp/software/OpenSSBD/src/openssbd_kkwt.tar.gz ./
         ```
-        **Internal Note: ```rsync -avh --progress ssbd@ssbd12.qbic.riken.jp:~/src/openssbd_kkwt.tar.gz ./```
-        
+
         ref: [Koji Kyoda, et al. (2013), WDDD: Worm Developmental Dynamics Database. Nucleic Acids Research 41(Database issue): D732-D737.](http://www.ncbi.nlm.nih.gov/pubmed/23172286)
      
      2. This image only includes OpenSSBD without any data
         ```
          # wget http://ssbd.qbic.riken.jp/software/OpenSSBD/src/openssbd_serv.tar.gz ./
         ```
-        **Internal Note: this is an old version. It will be updated before release. ```rsync -avh --progress ssbd@ssbd12.qbic.riken.jp:~/src/openssbd_serv.tar.gz ./```
 
   3. Load the image into docker
     ```
