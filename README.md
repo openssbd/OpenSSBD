@@ -45,7 +45,10 @@ There are two recommended installation methods:
 ## Installation using a Docker image
   1. Pre-requisite
      Install docker - https://docs.docker.com/engine/installation/
-  2. Get a copy of the image from from http://ssbd.qbic.riken.jp/software/OpenSSBD/src/
+  2. Get a copy of the image from from Docker Hub 
+        ```
+        # docker run openssbd/public
+        
      1. This image includes OpenSSBD database engine together with 1 dataset ["Quantitative information about nuclear division dynamics in wild-type embryo of _C. elegans_"](http://ssbd.qbic.riken.jp/search/afc304bc-7cca-4c92-8764-f5957dd06e3d/)
         ```
          # wget http://ssbd.qbic.riken.jp/software/OpenSSBD/src/openssbd_kkwt.tar.gz ./
@@ -53,24 +56,12 @@ There are two recommended installation methods:
 
         ref: [Koji Kyoda, et al. (2013), WDDD: Worm Developmental Dynamics Database. Nucleic Acids Research 41(Database issue): D732-D737.](http://www.ncbi.nlm.nih.gov/pubmed/23172286)
      
-     2. This image only includes OpenSSBD without any data
         ```
-         # wget http://ssbd.qbic.riken.jp/software/OpenSSBD/src/openssbd_serv.tar.gz ./
-        ```
-
-  3. Load the image into docker
-    ```
-     # docker load < openssbd_kkwt.tar.gz 
-    ```
-    Or
-    ```
-     # docker load < openssbd_serv.tar.gz 
-    ```
-  4. Examine the image in docker
+  3. Examine the image in docker
     ```
      # docker images
     ```
-  5. Start the container - mapping and using port 8282
+  4. Start the container - mapping and using port 8282
 ```
 # docker run -i -t -p 8282:8282 openssbd/internal:1 /bin/bash
 ```
@@ -78,7 +69,7 @@ Or
 ```
 # docker run -i -t -p 8282:8282 openssbd_serv /bin/bash
 ```
-  6. Setting up within the container
+  5. Setting up within the container
      1. Start up postgresql
        ```
        root@[container]:~/# /etc/init.d/postgresql start
@@ -88,7 +79,7 @@ Or
       root@[container]:~/# cd /usr/src/OpenSSBD
       root@[container]:/usr/src/OpenSSBD/# python manage.py runserver 0:8282
       ```
-  7. OpenSSBD can now be accessed by a web browser http://localhost:8282
+  6. OpenSSBD can now be accessed by a web browser http://localhost:8282
      * note: For Windows and MacOS users, you need to find out the IP address of the Docker-Machine using the command below.
      You can then access it on the web browser by using http://[ip address]:8282
        ```
