@@ -47,16 +47,15 @@ There are two recommended installation methods:
      Install docker - https://docs.docker.com/engine/installation/
   2. Get a copy of the image from from Docker Hub 
 ```
-        # docker run openssbd/public
+    # docker run openssbd/public
 ```
-     1. This image includes OpenSSBD database engine together with 1 dataset ["Quantitative information about nuclear division dynamics in wild-type embryo of _C. elegans_"](http://ssbd.qbic.riken.jp/search/afc304bc-7cca-4c92-8764-f5957dd06e3d/)
-
-        ref: [Koji Kyoda, et al. (2013), WDDD: Worm Developmental Dynamics Database. Nucleic Acids Research 41(Database issue): D732-D737.](http://www.ncbi.nlm.nih.gov/pubmed/23172286)
+    * This image includes OpenSSBD database engine together with 1 dataset ["Quantitative information about nuclear division dynamics in wild-type embryo of _C. elegans_"](http://ssbd.qbic.riken.jp/search/afc304bc-7cca-4c92-8764-f5957dd06e3d/)
+    * ref: [Koji Kyoda, et al. (2013), WDDD: Worm Developmental Dynamics Database. Nucleic Acids Research 41(Database issue): D732-D737.](http://www.ncbi.nlm.nih.gov/pubmed/23172286)
      
   3. Examine the image in docker
-    ```
-     # docker images
-    ```
+```
+    # docker images
+```
   4. Start the container - mapping and using port 8282
 ```
 # docker run -i -t -p 8282:8282 openssbd/internal:1 /bin/bash
