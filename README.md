@@ -36,6 +36,8 @@ SSBD aims to facilitate the reuse of these quantitative and imaging data for ref
 * It is written in [Python](https://www.python.org/) using [Django web application framework](https://www.djangoproject.com/) and [PostgreSQL](http://www.postgresql.org/) database engine. 
 * RESTful API is written using [Tastypie API framework for Django](https://django-tastypie.readthedocs.org/en/latest/)
 * Browser based visualisation is mainly written in Javascript and uses [Three.js](http://threejs.org/) Javascript 3D library and [jQuery](https://jquery.com/)/[jQuery-UI](https://jqueryui.com/) libraries.
+ 
+
 ![Alt text](OpenSSBD.jpg?raw=true "Overview of OpenSSBD")
 
 # Installation
@@ -95,7 +97,7 @@ There are two recommended installation methods:
 ## read_file API
   * **Description** - Importing BDML files into OpenSSBD
   * Usage:
-  ``` /SSBD/BDML/readfile/<filename>/ ```
+``` /SSBD/BDML/readfile/<filename>/ ```
     * where filename is the name of the BDML file
     * limit to importing BDML version 0.15 format
     * e.g.
@@ -125,33 +127,33 @@ There are two recommended installation methods:
     * entity type is the type of entity which one wants to retrieve, point, sphere and line. Face is not supported yet.
     * e.g. retrieving BDML internal ID=1 at time point=10 and enitity type=line 
 ```
-      http://localhost:8282/SSBD/BDML/vertices/1/t/10/etype/line/
+    http://localhost:8282/SSBD/BDML/vertices/1/t/10/etype/line/
 ```
     * It will always return in JSON format with a key _vertices_ and a list of coordinates with its component and entity ids
 ```
-      { vertices : [entity_id, coordinates_id, x, y, z, t, ... ] }
+    { vertices : [entity_id, coordinates_id, x, y, z, t, ... ] }
 ```
 
 
 # Importing BDML files into OpenSSBD
-1. Create a directory in /tmp/bdml 
+- Create a directory in /tmp/bdml 
 ```
-   # mkdir -p /tmp/bdml
+  # mkdir -p /tmp/bdml
 ```
-2. Copy the bdml files to the /tmp/bdml directory, e.g. 
+- Copy the bdml files to the /tmp/bdml directory, e.g. 
 ```
-    # cp wt_N2_030131_01.bdml0.15.xml /tmp/bdml
+  # cp wt_N2_030131_01.bdml0.15.xml /tmp/bdml
 ```
-3. Call read_file API, e.g. 
+- Call read_file API, e.g. 
 ```
-    # curl -X POST http://localhost:9292/SSBD/BDML/read_file/wt_N2_030131_01.bdml0.15.xml/
+  # curl -X POST http://localhost:9292/SSBD/BDML/read_file/wt_N2_030131_01.bdml0.15.xml/
     {"details": "bdml 563d487f-1676-4159-a3ab-c25c2e198f6c is saved in the database", "error": "none"}
 ```
-4. Find the bdml internal ID number using bdml API, e.g.  
+- Find the bdml internal ID number using bdml API, e.g.  
 ```
-   http://dhcp20-193.cdb.riken.jp:8282/SSBD/api/v1/bdml/?format=xml;bdml__bdml_ID__icontains=563;
+  http://dhcp20-193.cdb.riken.jp:8282/SSBD/api/v1/bdml/?format=xml;bdml__bdml_ID__icontains=563;
 ```
-   * Result:
+- Result:
 ```
 <response>
 <objects type="list">
@@ -172,7 +174,7 @@ BDML file for quantitative information about nuclear division dynamics of wild-t
 </meta>
 </response>
 ```
-5. Update the root table via SQL function schemaupdate4 together with the internal ID number 
+- Update the root table via SQL function schemaupdate4 together with the internal ID number 
   * e.g.
 ```
 psql -h localhost -U postgres -d "SSBD" -c "select schemaupdate4(1);"
@@ -186,7 +188,7 @@ NOTICE:  Inserted 1 into SSBD2_root_data_model
              1
 (1 row)
 ```
-6. Update the unicoords table via SQL function unicoords - it fills in the entries by calculating all the coordinates in micrometers.
+- Update the unicoords table via SQL function unicoords - it fills in the entries by calculating all the coordinates in micrometers.
   * e.g.
 ```
 # psql -h localhost -U postgres -d "SSBD" -c "select unicoords(1);"
@@ -197,7 +199,7 @@ NOTICE:  Inserted 1 into SSBD
          1
 (1 row)
 ```
-7. Updating statistical table via function genstats
+- Updating statistical table via function genstats
   * e.g.
 ```
 # psql -h localhost -U postgres -d "SSBD" -c "select genstats(1);"
