@@ -16,13 +16,12 @@
    # apt-get install postgresql postgresql-contrib
 ```
 2. Starting PostgreSQL and setting up a new SSBD DB
-　　1. check access to DB by editing /etc/postgresql/9.3/main/pg_hba.conf
+  1. check access to DB by editing `/etc/postgresql/9.3/main/pg_hba.conf`
 ```
    # Database administrative login by Unix domain socket
    local   all             postgres                                trust
 ```
-   2. Start up PostgreSQL
-
+  2. Start up PostgreSQL
 ```
     # service postgresql start
     # sudo -i -u postgres
@@ -31,17 +30,17 @@
     postgres=# alter user postgres with password 'postgres';
 ```
 3. Download OpenSSBD code using Git
-   1. Change to the directory where you want **OpenSSBD** to reside. The default directory is /usr/src/OpenSSBD
+  1. Change to the directory where you want **OpenSSBD** to reside. The default directory is `/usr/src/OpenSSBD`
 ```
     # mkdir -p /usr/src/OpenSSBD
     # cd /usr/src/OpenSSBD
 ```
-   2. Clone OpenSSBD from Github
+  2. Clone OpenSSBD from Github
 ```
     # git clone https://github.com/openssbd/OpenSSBD.git
 ```
-4. Other Changes need in /usr/src/OpenSSBD/SSBD/settings.py
-   * if you are not using default directory, you will need to change the variable STATICFILES_DIRS, below is the default setting
+4. Other Changes need in `/usr/src/OpenSSBD/SSBD/settings.py`
+  * if you are not using default directory, you will need to change the variable STATICFILES_DIRS, below is the default setting
 ```
     STATICFILES_DIRS = ('/usr/src/OpenSSBD/SSBD/SSBD/static',)
 ```
@@ -68,4 +67,4 @@
     # cd /usr/src/OpenSSBD/SSBD
     # python manage.py runserver 0:8282
 ```
-9. OpenSSBD can now be accessed by a web browser http://localhost:8282
+9. OpenSSBD can now be accessed by a web browser `http://localhost:8282`
