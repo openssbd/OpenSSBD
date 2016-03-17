@@ -1,5 +1,6 @@
 #Installing OpenSSBD on Ubuntu 14.04 
 - Install the latest update and install a list of dependency programs
+
   ```
   # apt-get update
   # apt-get upgrade
@@ -15,6 +16,7 @@
   # apt-get install python-psycopg2
   # apt-get install postgresql postgresql-contrib
   ```
+
 - Starting PostgreSQL and setting up a new SSBD DB
   - check access to DB by editing `/etc/postgresql/9.3/main/pg_hba.conf`
   ```
