@@ -36,6 +36,8 @@ SSBD aims to facilitate the reuse of these quantitative and imaging data for ref
 * It is written in [Python](https://www.python.org/) using [Django web application framework](https://www.djangoproject.com/) and [PostgreSQL](http://www.postgresql.org/) database engine. 
 * RESTful API is written using [Tastypie API framework for Django](https://django-tastypie.readthedocs.org/en/latest/)
 * Browser based visualisation is mainly written in Javascript and uses [Three.js](http://threejs.org/) Javascript 3D library and [jQuery](https://jquery.com/)/[jQuery-UI](https://jqueryui.com/) libraries.
+ 
+
 ![Alt text](OpenSSBD.jpg?raw=true "Overview of OpenSSBD")
 
 # Installation
@@ -43,118 +45,46 @@ SSBD aims to facilitate the reuse of these quantitative and imaging data for ref
 There are two recommended installation methods:
 
 ## Installation using a Docker image
- 1. Pre-requisite
-     Install docker - https://docs.docker.com/engine/installation/
- 2. Get a copy of the image from from Docker Hub 
-```
+
+  1. Prerequisite
+    Install [docker](https://docs.docker.com/engine/installation/)
+
+  2. Get a copy of the image from from Docker Hub
+    ```
     # docker run openssbd/public
-```
+    ```
     * This image includes OpenSSBD database engine together with 1 dataset ["Quantitative information about nuclear division dynamics in wild-type embryo of _C. elegans_"](http://ssbd.qbic.riken.jp/search/afc304bc-7cca-4c92-8764-f5957dd06e3d/)
     * ref: [Koji Kyoda, et al. (2013), WDDD: Worm Developmental Dynamics Database. Nucleic Acids Research 41(Database issue): D732-D737.](http://www.ncbi.nlm.nih.gov/pubmed/23172286)
      
- 3. Examine the image in docker
-```
+  3. Examine the image in docker
+    ```
     # docker images
-```
- 4. Start the container - mapping and using port 8282
-```
-# docker run -i -t -p 8282:8282 openssbd/internal:1 /bin/bash
-```
-Or
-```
-# docker run -i -t -p 8282:8282 openssbd_serv /bin/bash
-```
- 5. Setting up within the container
-     1. Start up postgresql
-       ```
-       root@[container]:~/# /etc/init.d/postgresql start
-       ```
-     2. Start up OpenSSBD 
-      ```
-      root@[container]:~/# cd /usr/src/OpenSSBD
-      root@[container]:/usr/src/OpenSSBD/# python manage.py runserver 0:8282
-      ```
- 6. OpenSSBD can now be accessed by a web browser http://localhost:8282
-     * note: For Windows and MacOS users, you need to find out the IP address of the Docker-Machine using the command below.
-     You can then access it on the web browser by using http://[ip address]:8282
-       ```
-       # docker-machine ip default
-       ```
-
-## Installing on Ubuntu 14.04 Linux VM/machine.
-  1. Install the latest update and install a list of dependency programs
-   ```
-   # apt-get update
-   # apt-get upgrade
-   # apt-get install python
-   # apt-get install python-numpy
-   # apt-get install python-pandas
-   # apt-get install python-matplotlib
-   # apt-get install postgresql 
-   # apt-get install python-django
-   # apt-get install git 
-   # apt-get install python-defusedxml
-   # apt-get install python-tastypie
-   # apt-get install python-psycopg2
-   # apt-get install postgresql postgresql-contrib
-   ```
-  2. Starting PostgreSQL and setting up a new SSBD DB
-     1. check access to DB by editing /etc/postgresql/9.3/main/pg_hba.conf
-     ```
-          # Database administrative login by Unix domain socket
-     local   all             postgres                                trust
-     ```
-     2. Start up PostgreSQL
-   ```
-   # service postgresql start
-   # sudo -i -u postgres
-   # psql
-   postgres=# create database "SSBD" encoding 'utf8' template template0;
-   postgres=# alter user postgres with password 'postgres';
-   ```
-  3. Download OpenSSBD code using Git
-     1. Change to the directory where you want **OpenSSBD** to reside. The default directory is /usr/src/OpenSSBD
-     ```
-     # mkdir -p /usr/src/OpenSSBD
-     # cd /usr/src/OpenSSBD
-     ```
-     2. Clone OpenSSBD from Github
-     ```
-     # git clone https://github.com/openssbd/OpenSSBD.git
-     ```
-  4. Other Changes need in /usr/src/OpenSSBD/SSBD/settings.py
-        * if you are not using default directory, you will need to change the variable STATICFILES_DIRS, below is the default setting
-        ```
-        STATICFILES_DIRS = ('/usr/src/OpenSSBD/SSBD/SSBD/static',)
-        ```
-  5. Creating database tables via Django
-     ```
-     # cd /usr/src/OpenSSBD/SSBD
-     # python manage.py syncdb
-     ```
-  6. Setting up owner model
-     ```
-     # psql -h localhost -U postgres -d "SSBD"
-     postgres=# insert into "SSBD2_owner_model" (password, last_login, username, email, first_name, is_active, date_joined, phone, "URL", organization, department, laboratory, address) values ('', '2016-01-01 JST', 'public', '', '', TRUE, '2016-01-01 JST', '', '', '', '', '', '');
-     ```
-  7. Defining SQL functions
-     ```
-     # cd /usr/src/OpenSSBD/SSBD/Tools
-     # psql -h localhost -U postgres -d "SSBD" -f unicoords.sql 
-     # psql -h localhost -U postgres -d "SSBD" -f stat.sql     
-     # psql -h localhost -U postgres -d "SSBD" -f gen_compstat.sql
-     # psql -h localhost -U postgres -d "SSBD" -f schemaUpdate4.sql 
-     ```
-  8. Start up OpenSSBD 
-      ```
-      # cd /usr/src/OpenSSBD/SSBD
-      # python manage.py runserver 0:8282
-      ```
-  9. OpenSSBD can now be accessed by a web browser http://localhost:8282
+    ```
+  4. Start the container - mapping and using port 8282
+    ```
+    # docker run -i -t -p 8282:8282 openssbd/public:latest /bin/bash
+    ```
+  5. Setting up within the container
+    1. Start up postgresql
+    ```
+    root@[container]:~/# /etc/init.d/postgresql start
+    ```
+    2. Start up OpenSSBD 
+    ```
+    root@[container]:~/# cd /usr/src/OpenSSBD
+    root@[container]:/usr/src/OpenSSBD/# python manage.py runserver 0:8282
+    ```
+  6. OpenSSBD can now be accessed by a web browser http://localhost:8282
+    * note: For Windows and MacOS users, you need to find out the IP address of the Docker-Machine using the command below.
+    You can then access it on the web browser by using http://[ip address]:8282
+    ```
+    # docker-machine ip default
+    ```
+## [Installing on Ubuntu 14.04 Linux VM/machine.] (InstallUbuntu.md)
 
 # API Reference
-1. Details of the API can be found on SSBD main web site <http://ssbd.qbic.riken.jp/restfulapi/>
-2. Additional API specific for OpenSSBD
+  1. Details of the API can be found on SSBD main web site <http://ssbd.qbic.riken.jp/restfulapi/>
+  2. Additional API specific for OpenSSBD
 
 <h2 id="SummaryofAdditionalOpenSSBDAPI">Summary of Additional OpenSSBD API</h2>
 <table class="wiki">
@@ -167,64 +97,64 @@ Or
 ## read_file API
   * **Description** - Importing BDML files into OpenSSBD
   * Usage:
-  ``` /SSBD/BDML/readfile/<filename>/ ```
+``` /SSBD/BDML/readfile/<filename>/ ```
     * where filename is the name of the BDML file
     * limit to importing BDML version 0.15 format
     * e.g.
-    ```
+```
     # curl -X POST http://localhost:8282/SSBD/BDML/read_file/wt_N2_030131_01.bdml0.15.xml/
     {"details": "bdml 563d487f-1676-4159-a3ab-c25c2e198f6c is saved in the database", "error": "none"}
-    ```
+```
     
 ## qdb_data API
   * **Description** - Deleting dataset in OpenSSBD
   * Usage:
-  ``` /SSBD/BDML/qdb_data/<bdml_id>/ ```
+``` /SSBD/BDML/qdb_data/<bdml_id>/ ```
     * it requires a DELETE http function
     * where bdml_id is the internal ID of the dataset
     * It may not cleanly delete data when there is importing error
     * e.g.
-    ```
+```
     # curl -X DELETE http://localhost:8282/SSBD/BDML/qdb_data/1/
-    ```
+```
     
 ## vertices API 
   * **Description** - Retrieving coordinates from OpenSSBD for displaying on a web browser
   * Usage:
-  ``` /SSBD/BDML/vertices/<bdml_id>/t/<time pt>/etype/<entity type>/ ```
+``` /SSBD/BDML/vertices/<bdml_id>/t/<time pt>/etype/<entity type>/ ```
     * where bdml_id is the internal ID of the dataset
     * time pt is the data related to the specific time point
     * entity type is the type of entity which one wants to retrieve, point, sphere and line. Face is not supported yet.
     * e.g. retrieving BDML internal ID=1 at time point=10 and enitity type=line 
-      ```
-      http://localhost:8282/SSBD/BDML/vertices/1/t/10/etype/line/
-      ```
+```
+    http://localhost:8282/SSBD/BDML/vertices/1/t/10/etype/line/
+```
     * It will always return in JSON format with a key _vertices_ and a list of coordinates with its component and entity ids
-      ```
-      { vertices : [entity_id, coordinates_id, x, y, z, t, ... ] }
-      ```
+```
+    { vertices : [entity_id, coordinates_id, x, y, z, t, ... ] }
+```
 
 
 # Importing BDML files into OpenSSBD
-1. Create a directory in /tmp/bdml 
-   ```
-   # mkdir -p /tmp/bdml
-   ```
-2. Copy the bdml files to the /tmp/bdml directory, e.g. 
-   ```
-    # cp wt_N2_030131_01.bdml0.15.xml /tmp/bdml
-    ```
-3. Call read_file API, e.g. 
-    ```
-    # curl -X POST http://localhost:9292/SSBD/BDML/read_file/wt_N2_030131_01.bdml0.15.xml/
+- Create a directory in /tmp/bdml 
+```
+  # mkdir -p /tmp/bdml
+```
+- Copy the bdml files to the /tmp/bdml directory, e.g. 
+```
+  # cp wt_N2_030131_01.bdml0.15.xml /tmp/bdml
+```
+- Call read_file API, e.g. 
+```
+  # curl -X POST http://localhost:9292/SSBD/BDML/read_file/wt_N2_030131_01.bdml0.15.xml/
     {"details": "bdml 563d487f-1676-4159-a3ab-c25c2e198f6c is saved in the database", "error": "none"}
-    ```
-4. Find the bdml internal ID number using bdml API, e.g.  
-   ```
-   http://dhcp20-193.cdb.riken.jp:8282/SSBD/api/v1/bdml/?format=xml;bdml__bdml_ID__icontains=563;
-   ```
-   * Result:
-   ```
+```
+- Find the bdml internal ID number using bdml API, e.g.  
+```
+  http://dhcp20-193.cdb.riken.jp:8282/SSBD/api/v1/bdml/?format=xml;bdml__bdml_ID__icontains=563;
+```
+- Result:
+```
 <response>
 <objects type="list">
 <object>
@@ -244,7 +174,7 @@ BDML file for quantitative information about nuclear division dynamics of wild-t
 </meta>
 </response>
 ```
-5. Update the root table via SQL function schemaupdate4 together with the internal ID number 
+- Update the root table via SQL function schemaupdate4 together with the internal ID number 
   * e.g.
 ```
 psql -h localhost -U postgres -d "SSBD" -c "select schemaupdate4(1);"
@@ -258,7 +188,7 @@ NOTICE:  Inserted 1 into SSBD2_root_data_model
              1
 (1 row)
 ```
-6. Update the unicoords table via SQL function unicoords - it fills in the entries by calculating all the coordinates in micrometers.
+- Update the unicoords table via SQL function unicoords - it fills in the entries by calculating all the coordinates in micrometers.
   * e.g.
 ```
 # psql -h localhost -U postgres -d "SSBD" -c "select unicoords(1);"
@@ -269,7 +199,7 @@ NOTICE:  Inserted 1 into SSBD
          1
 (1 row)
 ```
-7. Updating statistical table via function genstats
+- Updating statistical table via function genstats
   * e.g.
 ```
 # psql -h localhost -U postgres -d "SSBD" -c "select genstats(1);"
