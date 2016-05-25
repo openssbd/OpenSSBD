@@ -1,5 +1,7 @@
 # OpenSSBD
 
+[![Join the chat at https://gitter.im/openssbd/OpenSSBD](https://badges.gitter.im/openssbd/OpenSSBD.svg)](https://gitter.im/openssbd/OpenSSBD?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 **OpenSSBD Database Engine - for storing and retrieving quantitative data of biological dynamics**
 
 Copyright (C) 2016  RIKEN/JST
