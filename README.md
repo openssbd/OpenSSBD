@@ -18,10 +18,11 @@ such as single molecules, nuclei, and gene expressed cells. **OpenSSBD** provide
 Quantitative numerical data are represented in a new Biological Dynamics Markup Language (BDML). The new data format allows users to exchange, store, compare and analyze data through the OpenSSBD database engine.
 
 ## Reference
-Yukako Tohsato, Kenneth H. L. Ho, Koji Kyoda and Shuichi Onami (2016)
+1. Yukako Tohsato, Kenneth H. L. Ho, Koji Kyoda and Shuichi Onami (2016)
 SSBD: a database of quantitative data of spatiotemporal dynamics of biological phenomena. Bioinformatics doi: 10.1093/bioinformatics/btw417
+<http://bioinformatics.oxfordjournals.org/content/early/2016/07/24/bioinformatics.btw417>
 　 
-Koji Kyoda, Yukako Tohsato, Kenneth H. L. Ho, Shuichi Onami (2015),
+2. Koji Kyoda, Yukako Tohsato, Kenneth H. L. Ho, Shuichi Onami (2015),
 Biological Dynamics Markup Language (BDML): an open format for representing quantitative biological dynamics data. Bioinformatics 31(7): 1044-1052 
 <http://bioinformatics.oxfordjournals.org/content/31/7/1044>.
 
