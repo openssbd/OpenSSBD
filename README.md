@@ -10,7 +10,8 @@ Original contributors: Kenneth H.L. Ho, Yukako Tohsato, Koji Kyoda, Shuichi Onam
     
 # Synopsis
 
-**OpenSSBD** is the open-source version of SSBD [Systems Science of Biological Dynamics] (http://ssbd.qbic.riken.jp/) database engine.
+**OpenSSBD** is the open-source version of SSBD [Systems Science of Biological Dynamics] (http://ssbd.qbic.riken.jp/) database engine version 1.0. The latest SSBD version 3.0 will be released in early 2018. 
+
 This open-source version is mainly created for biologists and others for storing and retrieving quantitative data of biological dynamics. 
 
 [Systems Science of Biological Dynamics (SSBD)](http://ssbd.qbic.riken.jp/) database provides a rich set of resources for analyzing spatiotemporal dynamics of biologcial objects, 
